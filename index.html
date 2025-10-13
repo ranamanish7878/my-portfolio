@@ -69,19 +69,37 @@
     <!-- Main Content Area -->
     <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
 
-        <!-- 1. Introduction Section -->
+        <!-- 1. Introduction Section (Updated to include profile image) -->
         <section id="intro" class="mb-24 md:mb-32 pt-10">
-            <div class="max-w-3xl">
-                <p class="text-lg text-accent-blue font-semibold mb-2">Hello, I'm</p>
-                <h1 class="text-6xl sm:text-7xl font-extrabold text-white mb-4">Manish Kumar</h1>
-                <h2 class="text-3xl sm:text-4xl font-semibold text-gray-400 mb-6">Specialist – Quality Engineering @ LTIMindtree.</h2>
-                <p class="text-xl text-gray-300">
-                    Career Objective: Improve software quality, meet customer expectations and reduce defects by supporting proven software quality practices and implementing practical and effective process improvement methods..
-                </p>
-                <div class="mt-8 flex space-x-4">
-                    <a href="#projects" class="px-6 py-3 bg-accent-blue text-white font-medium rounded-lg shadow-lg hover:bg-blue-600 transition duration-300 transform hover:scale-105">View Projects</a>
-                    <a href="#contact" class="px-6 py-3 border border-gray-600 text-soft-text font-medium rounded-lg hover:bg-gray-700 transition duration-300">Get In Touch</a>
+            <div class="grid md:grid-cols-12 gap-12 items-center">
+                
+                <!-- Left Column: Text Content (takes 7 columns on desktop) -->
+                <div class="md:col-span-7">
+                    <p class="text-lg text-accent-blue font-semibold mb-2">Hello, I'm</p>
+                    <h1 class="text-6xl sm:text-7xl font-extrabold text-white mb-4">Manish Kumar</h1>
+                    <h2 class="text-3xl sm:text-4xl font-semibold text-gray-400 mb-6">Specialist – Quality Engineering @ LTIMindtree.</h2>
+                    <p class="text-xl text-gray-300">
+                        Career Objective: Improve software quality, meet customer expectations and reduce defects by supporting proven software quality practices and implementing practical and effective process improvement methods..
+                    </p>
+                    <div class="mt-8 flex space-x-4">
+                        <a href="#projects" class="px-6 py-3 bg-accent-blue text-white font-medium rounded-lg shadow-lg hover:bg-blue-600 transition duration-300 transform hover:scale-105">View Projects</a>
+                        <a href="#contact" class="px-6 py-3 border border-gray-600 text-soft-text font-medium rounded-lg hover:bg-gray-700 transition duration-300">Get In Touch</a>
+                    </div>
                 </div>
+
+                <!-- Right Column: Profile Image (takes 5 columns on desktop) -->
+                <div class="md:col-span-5 flex justify-center md:justify-end order-first md:order-last">
+                    <div class="w-64 h-64 sm:w-80 sm:h-80 md:w-full md:max-w-xs overflow-hidden rounded-full border-4 border-accent-blue shadow-2xl shadow-blue-500/50">
+                        <!-- Image source is the uploaded file name: MyPicture.jpg -->
+                        <img 
+                            src="MyPicture.jpg" 
+                            alt="Manish Kumar - Specialist Quality Engineering" 
+                            class="w-full h-full object-cover transition duration-500 ease-in-out hover:scale-105"
+                            onerror="this.onerror=null; this.src='https://placehold.co/800x800/0F172A/3B82F6?text=MK';"
+                        />
+                    </div>
+                </div>
+
             </div>
         </section>
 
