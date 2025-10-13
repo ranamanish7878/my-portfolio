@@ -69,7 +69,7 @@
     <!-- Main Content Area -->
     <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
 
-        <!-- 1. Introduction Section (Updated to include profile image) -->
+        <!-- 1. Introduction Section (Updated to include profile image, location, and social links) -->
         <section id="intro" class="mb-24 md:mb-32 pt-10">
             <div class="grid md:grid-cols-12 gap-12 items-center">
                 
@@ -88,7 +88,8 @@
                 </div>
 
                 <!-- Right Column: Profile Image (takes 5 columns on desktop) -->
-                <div class="md:col-span-5 flex justify-center md:justify-end order-first md:order-last">
+                <div class="md:col-span-5 flex flex-col items-center md:items-end order-first md:order-last text-center md:text-right">
+                    <!-- Image Container -->
                     <div class="w-64 h-64 sm:w-80 sm:h-80 md:w-full md:max-w-xs overflow-hidden rounded-full border-4 border-accent-blue shadow-2xl shadow-blue-500/50">
                         <!-- Image source is the uploaded file name: MyPicture.jpg -->
                         <img 
@@ -98,8 +99,35 @@
                             onerror="this.onerror=null; this.src='https://placehold.co/800x800/0F172A/3B82F6?text=MK';"
                         />
                     </div>
-                </div>
+                    
+                    <!-- Location Tag -->
+                    <p class="mt-4 text-xl font-medium text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 inline-block mr-2 text-red-500" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+                        </svg>
+                        Bengaluru, Karnataka, India
+                    </p>
 
+                    <!-- Social Media Icons (New Addition) -->
+                    <div class="mt-4 flex space-x-4 justify-center md:justify-end">
+                        <!-- LinkedIn -->
+                        <a href="https://www.linkedin.com/in/manish-kumar-323bba78/" target="_blank" class="text-gray-400 hover:text-accent-blue transition duration-300 transform hover:scale-110" aria-label="LinkedIn Profile">
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3v9zM6.5 8.25A1.75 1.75 0 118.25 6.5 1.75 1.75 0 016.5 8.25zM19 19h-3v-4.72c0-1.19-.48-1.59-1.31-1.59-1.31 0-1.69.96-1.69 2.48V19h-3v-9h3v1.39c.65-.95 1.25-1.64 2.85-1.64 2.07 0 3.65 1.37 3.65 4.38V19z"/></svg>
+                        </a>
+                        <!-- Facebook -->
+                        <a href="https://www.facebook.com/RanaManishSinghCSE" target="_blank" class="text-gray-400 hover:text-accent-blue transition duration-300 transform hover:scale-110" aria-label="Facebook Profile">
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.7 0H1.3C.58 0 0 .58 0 1.3V22.7c0 .72.58 1.3 1.3 1.3H12V14.7h-3v-3h3V8.7c0-3.1 1.84-4.79 4.67-4.79 1.33 0 2.47.1 2.8.14V7.5H18.5c-1.48 0-1.78.7-1.78 1.76V11.7h3l-.52 3H15V24h7.7c.72 0 1.3-.58 1.3-1.3V1.3c0-.72-.58-1.3-1.3-1.3z"/></svg>
+                        </a>
+                        <!-- Instagram -->
+                        <a href="https://www.instagram.com/talk2_manishsinghrana/" target="_blank" class="text-gray-400 hover:text-accent-blue transition duration-300 transform hover:scale-110" aria-label="Instagram Profile">
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.58.013 4.85.071 1.178.056 1.954.236 2.658.517.653.265 1.22.64 1.76.64.54 0 1.107-.375 1.76-.64.704-.281 1.48-.461 2.658-.517 1.27-.058 1.646-.071 4.85-.071zm0 2.138c3.15 0 3.49.012 4.74.07 1.14.055 1.76.223 2.37.47.58.23 1.05.52 1.54.91.49.39.78.86 1.01 1.44.24.61.41 1.23.47 2.37.058 1.25.07 1.59.07 4.74s-.012 3.49-.07 4.74c-.055 1.14-.223 1.76-.47 2.37-.23.58-.52 1.05-.91 1.54-.39.49-.86.78-1.44 1.01-.61.24-1.23.41-2.37.47-1.25.058-1.59.07-4.74.07s-3.49-.012-4.74-.07c-1.14-.055-1.76-.223-2.37-.47-.58-.23-1.05-.52-1.54-.91-.49-.39-.78-.86-1.01-1.44-.24-.61-.41-1.23-.47-2.37-.058-1.25-.07-1.59-.07-4.74s.012-3.49.07-4.74c.055-1.14.223-1.76.47-2.37.23-.58.52-1.05.91-1.54.39-.49.86-.78 1.44-1.01.61-.24 1.23-.41 2.37-.47C8.51 4.293 8.85 4.28 12 4.28zM12 7.863c-2.296 0-4.137 1.84-4.137 4.137s1.84 4.137 4.137 4.137 4.137-1.84 4.137-4.137-1.84-4.137-4.137-4.137zm0 2.138c1.15 0 2.05.9 2.05 2.05s-.9 2.05-2.05 2.05-2.05-.9-2.05-2.05.9-2.05 2.05-2.05zm6.577-3.665c-.58 0-1.05.47-1.05 1.05s.47 1.05 1.05 1.05 1.05-.47 1.05-1.05-.47-1.05-1.05-1.05z"/></svg>
+                        </a>
+                        <!-- Twitter (X) -->
+                        <a href="https://x.com/Talk2ManishRana" target="_blank" class="text-gray-400 hover:text-accent-blue transition duration-300 transform hover:scale-110" aria-label="X (Twitter) Profile">
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.261 8.504 11.238h-7.143l-5.321-7.062-6.505 7.062h-3.308l7.66-8.736L2.99 2.25h7.33l4.745 6.404L18.244 2.25zm-2.88 15.118H18.7l-7.086-9.289-5.127 6.69z"/></svg>
+                        </a>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -348,15 +376,28 @@
                 Say Hello via Email
             </a>
 
+            <!-- Full set of Social Links in Contact Footer -->
             <div class="mt-10 flex justify-center space-x-6">
-                <!-- Placeholder Icons for GitHub/LinkedIn/Twitter -->
+                <!-- GitHub -->
                 <a href="https://github.com/manishcse" target="_blank" class="text-gray-400 hover:text-white transition duration-300">
                     <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.884-.015-1.745-2.784.605-3.367-1.341-3.367-1.341-.454-1.156-1.11-1.46-1.11-1.46-.909-.62.068-.608.068-.608 1.004.07 1.531 1.032 1.531 1.032.892 1.528 2.341 1.087 2.91.831.091-.645.356-1.087.645-1.334-2.22-.25-4.555-1.11-4.555-4.927 0-1.088.389-1.979 1.029-2.675-.102-.25-.446-1.266.098-2.638 0 0 .84-.268 2.75 1.022A9.702 9.702 0 0112 5.093c.85.004 1.705.115 2.504.337 1.909-1.29 2.747-1.022 2.747-1.022.546 1.372.202 2.388.099 2.638.64.696 1.028 1.587 1.028 2.675 0 3.826-2.338 4.673-4.566 4.92.359.31.678.924.678 1.855 0 1.335-.012 2.417-.012 2.747 0 .267.18.575.688.483C19.137 20.198 22 16.442 22 12.017 22 6.484 17.523 2 12 2Z" clip-rule="evenodd"/></svg>
                 </a>
-                <a href="https://www.linkedin.com/in/manish-kumar-323bba78" target="_blank" class="text-gray-400 hover:text-white transition duration-300">
+                <!-- LinkedIn -->
+                <a href="https://www.linkedin.com/in/manish-kumar-323bba78/" target="_blank" class="text-gray-400 hover:text-white transition duration-300">
                     <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3v9zM6.5 8.25A1.75 1.75 0 118.25 6.5 1.75 1.75 0 016.5 8.25zM19 19h-3v-4.72c0-1.19-.48-1.59-1.31-1.59-1.31 0-1.69.96-1.69 2.48V19h-3v-9h3v1.39c.65-.95 1.25-1.64 2.85-1.64 2.07 0 3.65 1.37 3.65 4.38V19z"/></svg>
                 </a>
-                <!-- Add other links as needed (e.g., Twitter, Blog) -->
+                <!-- Facebook -->
+                <a href="https://www.facebook.com/RanaManishSinghCSE" target="_blank" class="text-gray-400 hover:text-white transition duration-300">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.7 0H1.3C.58 0 0 .58 0 1.3V22.7c0 .72.58 1.3 1.3 1.3H12V14.7h-3v-3h3V8.7c0-3.1 1.84-4.79 4.67-4.79 1.33 0 2.47.1 2.8.14V7.5H18.5c-1.48 0-1.78.7-1.78 1.76V11.7h3l-.52 3H15V24h7.7c.72 0 1.3-.58 1.3-1.3V1.3c0-.72-.58-1.3-1.3-1.3z"/></svg>
+                </a>
+                <!-- Instagram -->
+                <a href="https://www.instagram.com/talk2_manishsinghrana/" target="_blank" class="text-gray-400 hover:text-white transition duration-300">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.58.013 4.85.071 1.178.056 1.954.236 2.658.517.653.265 1.22.64 1.76.64.54 0 1.107-.375 1.76-.64.704-.281 1.48-.461 2.658-.517 1.27-.058 1.646-.071 4.85-.071zm0 2.138c3.15 0 3.49.012 4.74.07 1.14.055 1.76.223 2.37.47.58.23 1.05.52 1.54.91.49.39.78.86 1.01 1.44.24.61.41 1.23.47 2.37.058 1.25.07 1.59.07 4.74s-.012 3.49-.07 4.74c-.055 1.14-.223 1.76-.47 2.37-.23.58-.52 1.05-.91 1.54-.39.49-.86.78-1.44 1.01-.61.24-1.23.41-2.37.47-1.25.058-1.59.07-4.74.07s-3.49-.012-4.74-.07c-1.14-.055-1.76-.223-2.37-.47-.58-.23-1.05-.52-1.54-.91-.49-.39-.78-.86-1.01-1.44-.24-.61-.41-1.23-.47-2.37-.058-1.25-.07-1.59-.07-4.74s.012-3.49.07-4.74c.055-1.14.223-1.76.47-2.37.23-.58.52-1.05.91-1.54.39-.49.86-.78 1.44-1.01.61-.24 1.23-.41 2.37-.47C8.51 4.293 8.85 4.28 12 4.28zM12 7.863c-2.296 0-4.137 1.84-4.137 4.137s1.84 4.137 4.137 4.137 4.137-1.84 4.137-4.137-1.84-4.137-4.137-4.137zm0 2.138c1.15 0 2.05.9 2.05 2.05s-.9 2.05-2.05 2.05-2.05-.9-2.05-2.05.9-2.05 2.05-2.05zm6.577-3.665c-.58 0-1.05.47-1.05 1.05s.47 1.05 1.05 1.05 1.05-.47 1.05-1.05-.47-1.05-1.05-1.05z"/></svg>
+                </a>
+                <!-- Twitter (X) -->
+                <a href="https://x.com/Talk2ManishRana" target="_blank" class="text-gray-400 hover:text-white transition duration-300">
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.261 8.504 11.238h-7.143l-5.321-7.062-6.505 7.062h-3.308l7.66-8.736L2.99 2.25h7.33l4.745 6.404L18.244 2.25zm-2.88 15.118H18.7l-7.086-9.289-5.127 6.69z"/></svg>
+                </a>
             </div>
 
         </section>
