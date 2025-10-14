@@ -247,7 +247,8 @@
                 </div>
                 
             </div>
-            <a href="#" class="inline-block mt-12 px-6 py-3 bg-accent-blue text-white font-medium rounded-lg shadow-lg hover:bg-blue-600 transition duration-300 transform hover:scale-105">Download Full Resume (PDF) &rarr;</a>
+            <!-- UPDATED LINK: Changed href to point to the newly uploaded PDF file name -->
+            <a href="ManishKumar_Automation.pdf" download="Manish_Kumar_Resume.pdf" class="inline-block mt-12 px-6 py-3 bg-accent-blue text-white font-medium rounded-lg shadow-lg hover:bg-blue-600 transition duration-300 transform hover:scale-105">Download Full Resume (PDF) &rarr;</a>
         </section>
 
         <!-- 4. Projects Section (Updated with detailed client projects) -->
@@ -413,6 +414,12 @@
         // Simple JavaScript for smooth scrolling in mobile/desktop navigation
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
+                // Check if the link is the resume download link, in which case we allow default behavior
+                // The logic here is primarily for links starting with #
+                if (this.getAttribute('href').endsWith('.docx') || this.getAttribute('href').endsWith('.pdf')) {
+                    // Let the default download behavior happen
+                    return; 
+                }
                 e.preventDefault();
                 document.querySelector(this.getAttribute('href')).scrollIntoView({
                     behavior: 'smooth'
