@@ -3,748 +3,564 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manish CSE | Computer Science Engineer & Developer</title>
-    <!-- Load Tailwind CSS -->
+    <title>Manish Kumar - Specialist Quality Engineering</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        'dark-bg': '#0F172A', // Slate 900
-                        'accent-blue': '#3B82F6', // Blue 500
-                        'soft-text': '#E2E8F0', // Slate 200
-                    }
-                }
-            }
-        }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
-        /* Custom CSS for smooth scrolling and clean font loading */
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
-        
-        html {
-            scroll-behavior: smooth;
-            font-family: 'Inter', sans-serif;
-        }
-        .section-header {
-            position: relative;
-            display: inline-block;
-            padding-bottom: 0.5rem; /* Space for the underline */
-        }
-        .section-header::after {
-            content: '';
-            position: absolute;
-            left: 0;
-            bottom: 0;
-            width: 50%;
-            height: 4px;
-            background-color: #3B82F6; /* accent-blue */
-            border-radius: 9999px;
+        /* Custom CSS for smooth transitions and modern design */
+        :root {
+            --primary-color: #007bff;
+            --secondary-color: #6c757d;
         }
 
-        /* Styling for the temporary message box instead of alert() */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f9;
+        }
+
+        /* Smooth scroll for anchor links */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--primary-color);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background-color: #e2e8f0;
+        }
+
+        /* --- HAMBURGER MENU FIX: ADD TRANSITIONS --- */
+        #mobile-menu {
+            transition: all 0.3s ease-in-out; /* Smooth transition for slide-down effect */
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            /* Start state is hidden */
+        }
+        #mobile-menu.open {
+            max-height: 500px; /* Sufficient height to show all links */
+            opacity: 1;
+        }
+
+        /* Card and Button Styles */
+        .card {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .primary-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            color: white;
+            background-color: var(--primary-color);
+            transition: background-color 0.3s ease, transform 0.1s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+        }
+        .primary-button:hover {
+            background-color: #0056b3;
+            transform: translateY(-1px);
+        }
+
+        /* Message Box Styling */
         #message-box {
             position: fixed;
             top: 1rem;
             right: 1rem;
             z-index: 1000;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-            transition: opacity 0.3s ease-in-out;
-            opacity: 0;
-            visibility: hidden;
+            transform: translateX(120%);
+            transition: transform 0.4s ease-out;
         }
         #message-box.show {
-            opacity: 1;
-            visibility: visible;
+            transform: translateX(0);
         }
     </style>
 </head>
-<body class="bg-dark-bg text-soft-text leading-relaxed">
+<body class="bg-gray-50">
 
-    <!-- Message Box (Used instead of alert/confirm) -->
-    <div id="message-box" class="bg-green-600 text-white"></div>
+    <!-- Message Box for Alerts and Notifications (Replaces alert()) -->
+    <div id="message-box" class="bg-white p-4 rounded-lg shadow-2xl border-l-4 border-blue-500 w-80">
+        <div id="message-icon" class="text-blue-500 inline-block align-top mr-3">
+            <i class="fas fa-info-circle text-xl"></i>
+        </div>
+        <div>
+            <h5 id="message-title" class="font-semibold text-gray-900">Notification</h5>
+            <p id="message-text" class="text-sm text-gray-600 mt-1"></p>
+        </div>
+    </div>
 
-
-    <!-- Header Navigation -->
-    <header class="sticky top-0 z-50 bg-dark-bg/95 backdrop-blur-sm shadow-xl">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-            <a href="#" class="text-xl font-bold text-accent-blue tracking-wider">Manish Kumar</a>
-            
-            <!-- Desktop Navigation -->
-            <nav class="hidden md:flex items-center space-x-6">
-                <a href="#about" class="text-sm font-medium hover:text-accent-blue transition duration-150">About</a>
-                <a href="#experience" class="text-sm font-medium hover:text-accent-blue transition duration-150">Experience</a>
-                <a href="#projects" class="text-sm font-medium hover:text-accent-blue transition duration-150">Projects</a>
-                <a href="#blog" class="text-sm font-medium hover:text-accent-blue transition duration-150">Blog</a>
-                <a href="#contact" class="text-sm font-medium hover:text-accent-blue transition duration-150">Contact</a>
-                <!-- New Subscribe Button -->
-                <a href="#subscribe" class="px-4 py-2 bg-green-500 text-dark-bg font-semibold rounded-lg shadow-lg hover:bg-green-400 transition duration-300 transform hover:scale-105 ml-4">
-                    Subscribe
+    <!-- Header & Navigation -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo/Name -->
+                <a href="#intro" class="text-2xl font-extrabold text-gray-900 tracking-tight hover:text-blue-600 transition duration-300">
+                    Manish Kumar
                 </a>
-            </nav>
-            
-            <!-- Mobile Menu Button (Hamburger/Close Icon) -->
-            <button id="mobile-menu-button" onclick="toggleMobileMenu()" class="md:hidden text-soft-text hover:text-accent-blue p-2 rounded-lg hover:bg-gray-800 transition duration-150" aria-label="Toggle navigation menu">
-                <!-- Hamburger Icon -->
-                <svg id="menu-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                <!-- Close Icon (Hidden by default) -->
-                <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex space-x-8 items-center">
+                    <a href="#about" class="text-gray-600 hover:text-blue-600 font-medium transition duration-300">About</a>
+                    <a href="#skills" class="text-gray-600 hover:text-blue-600 font-medium transition duration-300">Skills</a>
+                    <a href="#experience" class="text-gray-600 hover:text-blue-600 font-medium transition duration-300">Experience</a>
+                    <a href="#blog" class="text-gray-600 hover:text-blue-600 font-medium transition duration-300">Blog</a>
+                    <a href="#contact" class="text-gray-600 hover:text-blue-600 font-medium transition duration-300">Contact</a>
+                    <a href="#subscribe" class="text-gray-600 hover:text-blue-600 font-medium transition duration-300">Subscribe</a>
+                    <a href="#subscribe" class="primary-button ml-4">
+                        <i class="fas fa-envelope mr-2"></i> Subscribe Now
+                    </a>
+                </nav>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button" type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none transition duration-300" aria-expanded="false">
+                        <span class="sr-only">Open main menu</span>
+                        <i id="menu-icon-open" class="fas fa-bars h-6 w-6" aria-hidden="true"></i>
+                        <i id="menu-icon-close" class="fas fa-times h-6 w-6 hidden" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
         </div>
 
-        <!-- Mobile Menu Content (Hidden by default) -->
-        <div id="mobile-menu" class="hidden md:hidden pb-4">
-            <nav class="flex flex-col space-y-2 px-4 pt-2 pb-3 border-t border-gray-700">
-                <a href="#about" onclick="closeMobileMenu()" class="block px-3 py-2 text-base font-medium text-soft-text hover:bg-gray-700 hover:text-accent-blue rounded-md transition duration-150">About</a>
-                <a href="#experience" onclick="closeMobileMenu()" class="block px-3 py-2 text-base font-medium text-soft-text hover:bg-gray-700 hover:text-accent-blue rounded-md transition duration-150">Experience</a>
-                <a href="#projects" onclick="closeMobileMenu()" class="block px-3 py-2 text-base font-medium text-soft-text hover:bg-gray-700 hover:text-accent-blue rounded-md transition duration-150">Projects</a>
-                <a href="#blog" onclick="closeMobileMenu()" class="block px-3 py-2 text-base font-medium text-soft-text hover:bg-gray-700 hover:text-accent-blue rounded-md transition duration-150">Blog</a>
-                <a href="#contact" onclick="closeMobileMenu()" class="block px-3 py-2 text-base font-medium text-soft-text hover:bg-gray-700 hover:text-accent-blue rounded-md transition duration-150">Contact</a>
-                <a href="#subscribe" onclick="closeMobileMenu()" class="block text-center mt-2 px-3 py-2 bg-green-500 text-dark-bg font-bold rounded-md shadow-lg hover:bg-green-400 transition duration-300">
-                    Subscribe
+        <!-- Mobile Menu (Hidden by default, styled for transition) -->
+        <div id="mobile-menu" class="md:hidden bg-white shadow-lg">
+            <div class="pt-2 pb-3 space-y-1 px-2 sm:px-3">
+                <a href="#about" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50" onclick="toggleMobileMenu(event)">About</a>
+                <a href="#skills" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50" onclick="toggleMobileMenu(event)">Skills</a>
+                <a href="#experience" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50" onclick="toggleMobileMenu(event)">Experience</a>
+                <a href="#blog" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50" onclick="toggleMobileMenu(event)">Blog</a>
+                <a href="#contact" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50" onclick="toggleMobileMenu(event)">Contact</a>
+                <a href="#subscribe" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50" onclick="toggleMobileMenu(event)">Subscribe</a>
+                <a href="#subscribe" class="primary-button mx-3 my-2 w-full" onclick="toggleMobileMenu(event)">
+                    <i class="fas fa-envelope mr-2"></i> Subscribe Now
                 </a>
-            </nav>
+            </div>
         </div>
     </header>
 
-    <!-- Main Content Area -->
-    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20">
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-24">
 
-        <!-- 1. Introduction Section (Updated to include profile image, location, and social links) -->
-        <section id="intro" class="mb-24 md:mb-32 pt-10">
-            <div class="grid md:grid-cols-12 gap-12 items-center">
+        <!-- Introduction Section -->
+        <section id="intro" class="card p-8 md:p-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
                 
-                <!-- Left Column: Text Content (takes 7 columns on desktop) -->
-                <div class="md:col-span-7">
-                    <p class="text-lg text-accent-blue font-semibold mb-2">Hello, I'm</p>
-                    <h1 class="text-6xl sm:text-7xl font-extrabold text-white mb-4">Manish Kumar</h1>
-                    <h2 class="text-3xl sm:text-4xl font-semibold text-gray-400 mb-6">Specialist – Quality Engineering @ LTIMindtree.</h2>
-                    <p class="text-xl text-gray-300">
-                        Career Objective: Improve software quality, meet customer expectations and reduce defects by supporting proven software quality practices and implementing practical and effective process improvement methods.
+                <!-- Text Content (Left Side) -->
+                <div class="md:col-span-2 order-2 md:order-1">
+                    <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 leading-tight">
+                        Hi, I'm <span class="text-blue-600">Manish Kumar</span>
+                    </h1>
+                    <h2 class="text-xl sm:text-2xl font-semibold text-gray-700 mt-2">
+                        Specialist – Quality Engineering
+                    </h2>
+                    <p class="mt-4 text-gray-600 text-lg max-w-2xl">
+                        A dedicated Quality Engineering Specialist with over 8 years of experience in test automation, focusing on front-end, API, and BDD frameworks. Proficient in Java, TypeScript, Python, Selenium, and Playwright, I strive to improve software quality and reduce defects through robust testing strategies.
                     </p>
-                    <div class="mt-8 flex space-x-4">
-                        <a href="#projects" class="px-6 py-3 bg-accent-blue text-white font-medium rounded-lg shadow-lg hover:bg-blue-600 transition duration-300 transform hover:scale-105">View Projects</a>
-                        <a href="#subscribe" class="px-6 py-3 border border-green-500 text-green-400 font-medium rounded-lg hover:bg-green-900/30 transition duration-300">Subscribe for Updates</a>
+                    <div class="mt-8 flex flex-wrap gap-4">
+                        <a href="#contact" class="primary-button">
+                            <i class="fas fa-envelope mr-2"></i> Get In Touch
+                        </a>
+                        <a href="#experience" class="bg-gray-200 text-gray-800 font-medium py-3 px-6 rounded-xl hover:bg-gray-300 transition duration-300 flex items-center">
+                            <i class="fas fa-chart-line mr-2"></i> View Experience
+                        </a>
                     </div>
                 </div>
-
-                <!-- Right Column: Profile Image (takes 5 columns on desktop) -->
-                <div class="md:col-span-5 flex flex-col items-center md:items-end order-first md:order-last text-center md:text-right">
-                    <!-- Image Container -->
-                    <div class="w-64 h-64 sm:w-80 sm:h-80 md:w-full md:max-w-xs overflow-hidden rounded-full border-4 border-accent-blue shadow-2xl shadow-blue-500/50">
-                        <!-- Image source is the uploaded file name: MyPicture.jpg -->
-                        <img 
-                            src="MyPicture.jpg" 
-                            alt="Manish Kumar - Specialist Quality Engineering" 
-                            class="w-full h-full object-cover transition duration-500 ease-in-out hover:scale-105"
-                            onerror="this.onerror=null; this.src='https://placehold.co/800x800/0F172A/3B82F6?text=MK';"
-                        />
+                
+                <!-- Image & Socials (Right Side) -->
+                <div class="md:col-span-1 flex flex-col items-center order-1 md:order-2">
+                    <!-- Image -->
+                    <div class="relative w-48 h-48 md:w-64 md:h-64 mb-4">
+                        <img src="uploaded:MyPicture.jpg-30211f90-91e1-4dc1-8f88-7d981c3dada5" alt="Manish Kumar Profile Picture" class="rounded-full object-cover w-full h-full border-4 border-blue-500 shadow-xl transition transform hover:scale-[1.02]">
+                        <div class="absolute inset-0 rounded-full ring-4 ring-blue-100/50 pointer-events-none"></div>
                     </div>
                     
-                    <!-- Location Tag -->
-                    <p class="mt-4 text-xl font-medium text-gray-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 inline-block mr-2 text-red-500" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                        </svg>
-                        Bengaluru, Karnataka, India
+                    <!-- Location -->
+                    <p class="text-gray-600 text-sm font-medium flex items-center mb-4">
+                        <i class="fas fa-map-marker-alt text-blue-500 mr-2"></i> Bengaluru, Karnataka, India
                     </p>
 
-                    <!-- Social Media Icons (New Addition) -->
-                    <div class="mt-4 flex space-x-4 justify-center md:justify-end">
-                        <!-- LinkedIn -->
-                        <a href="https://www.linkedin.com/in/manish-kumar-323bba78/" target="_blank" class="text-gray-400 hover:text-accent-blue transition duration-300 transform hover:scale-110" aria-label="LinkedIn Profile">
-                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3v9zM6.5 8.25A1.75 1.75 0 118.25 6.5 1.75 1.75 0 016.5 8.25zM19 19h-3v-4.72c0-1.19-.48-1.59-1.31-1.59-1.31 0-1.69.96-1.69 2.48V19h-3v-9h3v1.39c.65-.95 1.25-1.64 2.85-1.64 2.07 0 3.65 1.37 3.65 4.38V19z"/></svg>
+                    <!-- Social Media Icons -->
+                    <div class="flex space-x-4 text-xl">
+                        <a href="https://www.linkedin.com/in/manish-kumar-323bba78/" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-blue-700 transition duration-300">
+                            <i class="fab fa-linkedin"></i>
                         </a>
-                        <!-- Facebook -->
-                        <a href="https://www.facebook.com/RanaManishSinghCSE" target="_blank" class="text-gray-400 hover:text-accent-blue transition duration-300 transform hover:scale-110" aria-label="Facebook Profile">
-                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.7 0H1.3C.58 0 0 .58 0 1.3V22.7c0 .72.58 1.3 1.3 1.3H12V14.7h-3v-3h3V8.7c0-3.1 1.84-4.79 4.67-4.79 1.33 0 2.47.1 2.8.14V7.5H18.5c-1.48 0-1.78.7-1.78 1.76V11.7h3l-.52 3H15V24h7.7c.72 0 1.3-.58 1.3-1.3V1.3c0-.72-.58-1.3-1.3-1.3z"/></svg>
+                        <a href="https://www.facebook.com/RanaManishSinghCSE" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-blue-700 transition duration-300">
+                            <i class="fab fa-facebook"></i>
                         </a>
-                        <!-- Instagram -->
-                        <a href="https://www.instagram.com/talk2_manishsinghrana/" target="_blank" class="text-gray-400 hover:text-accent-blue transition duration-300 transform hover:scale-110" aria-label="Instagram Profile">
-                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.58.013 4.85.071 1.178.056 1.954.236 2.658.517.653.265 1.22.64 1.76.64.54 0 1.107-.375 1.76-.64.704-.281 1.48-.461 2.658-.517 1.27-.058 1.646-.071 4.85-.071zm0 2.138c3.15 0 3.49.012 4.74.07 1.14.055 1.76.223 2.37.47.58.23 1.05.52 1.54.91.49.39.78.86 1.01 1.44.24.61.41 1.23.47 2.37.058 1.25.07 1.59.07 4.74s-.012 3.49-.07 4.74c-.055 1.14-.223 1.76-.47 2.37-.23.58-.52 1.05-.91 1.54-.39.49-.86.78-1.44 1.01-.61.24-1.23.41-2.37.47-1.25.058-1.59.07-4.74.07s-3.49-.012-4.74-.07c-1.14-.055-1.76-.223-2.37-.47-.58-.23-1.05-.52-1.54-.91-.49-.39-.78-.86-1.01-1.44-.24-.61-.41-1.23-.47-2.37-.058-1.25-.07-1.59-.07-4.74s.012-3.49.07-4.74c.055-1.14.223-1.76.47-2.37.23-.58.52-1.05.91-1.54.39-.49.86-.78 1.44-1.01.61-.24 1.23-.41 2.37-.47C8.51 4.293 8.85 4.28 12 4.28zM12 7.863c-2.296 0-4.137 1.84-4.137 4.137s1.84 4.137 4.137 4.137 4.137-1.84 4.137-4.137-1.84-4.137-4.137-4.137zm0 2.138c1.15 0 2.05.9 2.05 2.05s-.9 2.05-2.05 2.05-2.05-.9-2.05-2.05.9-2.05 2.05-2.05zm6.577-3.665c-.58 0-1.05.47-1.05 1.05s.47 1.05 1.05 1.05 1.05-.47 1.05-1.05-.47-1.05-1.05-1.05z"/></svg>
+                        <a href="https://www.instagram.com/talk2_manishsinghrana/" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-pink-600 transition duration-300">
+                            <i class="fab fa-instagram"></i>
                         </a>
-                        <!-- Twitter (X) -->
-                        <a href="https://x.com/Talk2ManishRana" target="_blank" class="text-gray-400 hover:text-accent-blue transition duration-300 transform hover:scale-110" aria-label="X (Twitter) Profile">
-                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.261 8.504 11.238h-7.143l-5.321-7.062-6.505 7.062h-3.308l7.66-8.736L2.99 2.25h7.33l4.745 6.404L18.244 2.25zm-2.88 15.118H18.7l-7.086-9.289-5.127 6.69z"/></svg>
+                        <a href="https://x.com/Talk2ManishRana" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-gray-900 transition duration-300">
+                            <i class="fab fa-twitter"></i>
                         </a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 2. About Section -->
-        <section id="about" class="py-12 md:py-16 border-t border-gray-800">
-            <h3 class="text-4xl font-bold section-header mb-8">About Me</h3>
-            <div class="grid md:grid-cols-3 gap-12">
-                <div class="md:col-span-2 text-gray-300 space-y-4">
-                    <p>I am Manish Kumar, bringing over <a href="#experience" class="text-accent-blue hover:underline font-semibold transition duration-150">10.5 years of comprehensive experience</a> in Quality Assurance across diverse domains including Retail, Healthcare, Ed-Tech, and Insurance. My multifaceted expertise spans designing and delivering robust automation frameworks leveraging <span class="font-bold text-white">Selenium WebDriver with Java</span>, orchestrated through TestNG for efficient test management.</p>
-                    <p>Currently, I am contributing my expertise at <span class="font-bold text-white">LTIMindtree</span> for the past five years, collaborating closely with a global, multi-geographic US-based client. My role involves navigating complex, multinational project landscapes, delivering high-quality QA solutions that align with dynamic business requirements and regulatory standards across regions. Leveraging advanced automation frameworks and cutting-edge technologies, I ensure scalable and efficient testing practices that drive client satisfaction and operational excellence.</p>
-                    <p>I have hands-on experience integrating <span class="font-bold text-white">Continuous Integration and Continuous Deployment pipelines using Jenkins</span>, along with executing automated tests on scalable <span class="font-bold text-white">EC2 instances</span> to ensure reliable and efficient test executions. My API automation proficiency encompasses <span class="font-bold text-white">RestAssured and Postman</span>, enabling end-to-end validation of service layers with precision.</p>
-                    <p>For development and scripting, I proficiently use IntelliJ IDEA, Eclipse, and Visual Studio Code, complemented by <span class="font-bold text-white">Maven</span> as the build automation tool, streamlining project builds and dependency management.</p>
-                    <p>In leadership and team management, I excel at aligning QA teams with evolving client requirements, driving agile practices through active participation in daily stand-ups, sprint planning, and grooming sessions. I collaborate closely with Product Owners, Scrum Masters, development teams, and stakeholders to ensure seamless communication, timely delivery, and alignment with business goals.</p>
-                </div>
-                <div class="md:col-span-1">
-                    <h4 class="text-xl font-semibold text-white mb-4">Core Stack & Skills</h4>
-                    <ul class="grid grid-cols-2 gap-2 text-sm text-gray-400">
-                        <li>Java </li>
-                        <li>Python </li>
-                        <li>Selenium WebDriver, ROBOT, TestNG, Playwright</li>
-                        <li>TOSCA is a model-based test automation tool developed by Tricentis. Certificate</li>
-                        <li>Git, GitHub, Bit bucket, GitLab</li>
-                        <li>RESTful APIs</li>
-                        <li>Agile Methodology</li>
-                        <li>CI/CD (Jenkins/Git)</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- 3. Experience Section (Detailed Timeline) -->
-        <section id="experience" class="py-12 md:py-16 border-t border-gray-800">
-            <h3 class="text-4xl font-bold section-header mb-12">Professional Experience</h3>
-
-            <div class="space-y-12">
-                
-                <!-- Job 1: LTIMindtree -->
-                <div class="relative pl-8 group">
-                    <!-- Timeline Dot and Line -->
-                    <div class="absolute w-2 h-full bg-gray-700 rounded-full left-0 top-0">
-                        <div class="absolute w-4 h-4 bg-accent-blue rounded-full -left-1 top-0 opacity-100 transition duration-300 transform group-hover:scale-110"></div>
-                    </div>
-                    <p class="text-sm font-medium text-gray-400 mb-1">April 2021 – Present</p>
-                    <h4 class="text-2xl font-semibold text-white">Specialist – Quality Engineering</h4>
-                    <p class="text-accent-blue font-medium mb-3">LTIMindtree, Bangalore</p>
-                    
-                    <p class="text-gray-300 mb-4 font-medium">Key Contributions & Projects (L'Oréal & Bekaert):</p>
-                    <ul class="list-disc ml-5 text-gray-300 space-y-2">
-                        <li>Lead role for global <span class="font-bold text-white">E-commerce (L'Oréal)</span> and <span class="font-bold text-white">Retail (Bekaert)</span> projects, handling <span class="font-bold text-white">Web, Mobile, and API testing</span>.</li>
-                        <li>Designed and maintained automation frameworks using <span class="font-bold text-white">Selenium with Java (TestNG)</span>, <span class="font-bold text-white">Playwright</span>, and <span class="font-bold text-white">ROBOT</span> Frameworks.</li>
-                        <li>Executed daily automation runs via <span class="font-bold text-white">Jenkins CI/CD pipeline</span> and utilized <span class="font-bold text-white">Bitbucket</span> for version control.</li>
-                        <li>Proficiently utilized management tools including <span class="font-bold text-white">Microsoft Azure, JIRA, Confluence, and Test Rail</span> for tracking and reporting.</li>
-                        <li>Involved in <span class="font-bold text-white">BDD (Behavior Driven Testing)</span> for feature execution and provided estimations on Azure DevOps user stories.</li>
-                    </ul>
-                </div>
-
-                <!-- Job 2: Indium Software (India) Pvt. Ltd. -->
-                <div class="relative pl-8 group">
-                    <!-- Timeline Dot and Line -->
-                    <div class="absolute w-2 h-full bg-gray-700 rounded-full left-0 top-0">
-                        <div class="absolute w-4 h-4 bg-accent-blue rounded-full -left-1 top-0 opacity-100 transition duration-300 transform group-hover:scale-110"></div>
-                    </div>
-                    <p class="text-sm font-medium text-gray-400 mb-1">October 2017 – April 2021</p>
-                    <h4 class="text-2xl font-semibold text-white">Quality Assurance Engineer</h4>
-                    <p class="text-accent-blue font-medium mb-3">Indium Software (India) Pvt. Ltd.</p>
-
-                    <p class="text-gray-300 mb-4 font-medium">Key Contributions & Projects (Embibe, TIMS-SES & Ashton Woods):</p>
-                    <ul class="list-disc ml-5 text-gray-300 space-y-2">
-                        <li>Responsible for end-to-end QA for projects in <span class="font-bold text-white">Ed-Tech (Embibe)</span> and <span class="font-bold text-white">Insurance (TIMS-SES)</span> domains.</li>
-                        <li>Developed and executed automation scripts using <span class="font-bold text-white">ROBOT Framework</span> with Python.</li>
-                        <li>Performed back-end testing using <span class="font-bold text-white">POSTMAN</span> and querying databases like <span class="font-bold text-white">MongoDB</span> and <span class="font-bold text-white">Postgres SQL</span> via Putty.</li>
-                        <li>Expertise in <span class="font-bold text-white">Black Box testing</span>, <span class="font-bold text-white">Regression testing</span>, and defect tracking using <span class="font-bold text-white">JIRA</span> and <span class="font-bold text-white">Test Rail</span>.</li>
-                        <li>Managed daily scrum calls and prepared weekly/monthly status reports for stakeholders.</li>
-                    </ul>
-                </div>
-
-                <!-- Job 3: Kaspon Networks Pvt. Ltd. (Client Merrill Corporation) -->
-                <div class="relative pl-8 group">
-                    <!-- Timeline Dot and Line -->
-                    <div class="absolute w-2 h-full bg-gray-700 rounded-full left-0 top-0">
-                        <div class="absolute w-4 h-4 bg-accent-blue rounded-full -left-1 top-0 opacity-100 transition duration-300 transform group-hover:scale-110"></div>
-                    </div>
-                    <p class="text-sm font-medium text-gray-400 mb-1">February 2017 – October 2017</p>
-                    <h4 class="text-2xl font-semibold text-white">Quality Assurance (Client: Merrill Corporation)</h4>
-                    <p class="text-accent-blue font-medium mb-3">Kaspon Networks Pvt. Ltd.</p>
-                    <p class="text-gray-300">Focused on quality assurance for client-specific projects, ensuring reliable delivery and maintaining documentation.</p>
-                </div>
-
-                <!-- Job 4: SrinSoft Technologies Pvt. Ltd. -->
-                <div class="relative pl-8 group">
-                    <!-- Timeline Dot and Line -->
-                    <div class="absolute w-2 h-full bg-gray-700 rounded-full left-0 top-0">
-                        <div class="absolute w-4 h-4 bg-accent-blue rounded-full -left-1 top-0 opacity-100 transition duration-300 transform group-hover:scale-110"></div>
-                    </div>
-                    <p class="text-sm font-medium text-gray-400 mb-1">March 2016 – November 2016</p>
-                    <h4 class="text-2xl font-semibold text-white">Quality Assurance Engineer</h4>
-                    <p class="text-accent-blue font-medium mb-3">SrinSoft Technologies Pvt. Ltd.</p>
-                    <ul class="list-disc ml-5 text-gray-300 space-y-2">
-                        <li>Tested a digital platform for <span class="font-bold text-white">truck booking and tracking systems</span> (Eagle Group project).</li>
-                        <li>Involved in the entire STLC, focusing on test case creation and execution (Functional, Performance, System testing).</li>
-                    </ul>
-                </div>
-
-                <!-- Job 5: Manpower Services India Private Limited. (Client HP E) -->
-                <div class="relative pl-8 group">
-                    <!-- Timeline Dot and Line -->
-                    <div class="absolute w-2 h-full bg-gray-700 rounded-full left-0 top-0">
-                        <div class="absolute w-4 h-4 bg-accent-blue rounded-full -left-1 top-0 opacity-100 transition duration-300 transform group-hover:scale-110"></div>
-                    </div>
-                    <p class="text-sm font-medium text-gray-400 mb-1">March 2015 – November 2015</p>
-                    <h4 class="text-2xl font-semibold text-white">Trainee (Client: HPE/HPI)</h4>
-                    <p class="text-accent-blue font-medium mb-3">Manpower Services India Private Limited.</p>
-                    <ul class="list-disc ml-5 text-gray-300 space-y-2">
-                        <li>Involved in the HPE/HPI split project, testing <span class="font-bold text-white">SAP (SD Module)</span> functionality.</li>
-                        <li>Focused on understanding requirements, preparing test cases, and initial exposure to defect reporting in JIRA.</li>
-                    </ul>
-                </div>
-                
-            </div>
-            <!-- Download Resume Link -->
-            <a href="ManishKumar_Automation.pdf" download="Manish_Kumar_Resume.pdf" class="inline-block mt-12 px-6 py-3 bg-accent-blue text-white font-medium rounded-lg shadow-lg hover:bg-blue-600 transition duration-300 transform hover:scale-105">Download Full Resume (PDF) &rarr;</a>
-        </section>
-
-        <!-- 4. Projects Section (Updated with detailed client projects) -->
-        <section id="projects" class="py-12 md:py-16 border-t border-gray-800">
-            <h3 class="text-4xl font-bold section-header mb-12">Key QA Projects</h3>
-            
-            <div class="space-y-10">
-                
-                <!-- Project Card 1: L'Oréal -->
-                <div class="p-6 bg-gray-800 rounded-xl shadow-xl hover:shadow-2xl hover:border-accent-blue border-t-4 border-gray-800 hover:border-accent-blue transition duration-300">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3">
-                        <h4 class="text-2xl font-bold text-white">L’Oréal E-commerce Platform QA (US/LATAM/CAN/Mexico)</h4>
-                        <span class="text-sm text-gray-400 mt-1 sm:mt-0 font-medium whitespace-nowrap">Oct 2021 – Present | Automation Lead</span>
-                    </div>
-                    <p class="text-gray-300 mb-4">Core domain in global <span class="font-bold text-white">E-commerce</span> (Cosmetics). Focused on Web, Mobile, and API testing across Dev, Pre-prod, and Production environments for multiple regions. Involved in daily script execution post-deployment and weekly GTM runs.</p>
-                    <p class="text-sm font-semibold text-soft-text mb-2">Key Responsibilities:</p>
-                    <ul class="list-disc ml-5 text-sm text-gray-400 space-y-1 mb-4">
-                        <li>Designed and executed automation scripts using <span class="font-bold text-white">Selenium with Java/TestNG</span> and <span class="font-bold text-white">Playwright</span>.</li>
-                        <li>Managed daily automation runs via <span class="font-bold text-white">Jenkins CI/CD pipeline</span> and maintained updated scripts on <span class="font-bold text-white">Bitbucket</span>.</li>
-                        <li>Provided estimations on Azure DevOps user stories and utilized tools like <span class="font-bold text-white">Browser Stack</span> and <span class="font-bold text-white">AWS Workspace</span>.</li>
-                    </ul>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="bg-blue-900/50 text-xs text-accent-blue px-3 py-1 rounded-full">Java/Selenium/TestNG</span>
-                        <span class="bg-blue-900/50 text-xs text-accent-blue px-3 py-1 rounded-full">Playwright</span>
-                        <span class="bg-blue-900/50 text-xs text-accent-blue px-3 py-1 rounded-full">Jenkins CI/CD</span>
-                        <span class="bg-blue-900/50 text-xs text-accent-blue px-3 py-1 rounded-full">Microsoft Azure</span>
-                        <span class="bg-blue-900/50 text-xs text-accent-blue px-3 py-1 rounded-full">E-commerce</span>
-                    </div>
-                </div>
-
-                <!-- Project Card 2: Bekaert -->
-                <div class="p-6 bg-gray-800 rounded-xl shadow-xl hover:shadow-2xl hover:border-accent-blue border-t-4 border-gray-800 hover:border-accent-blue transition duration-300">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3">
-                        <h4 class="text-2xl font-bold text-white">Bekaert Retail & Manufacturing QA</h4>
-                        <span class="text-sm text-gray-400 mt-1 sm:mt-0 font-medium whitespace-nowrap">Apr 2021 – Oct 2021 | Test Specialist</span>
-                    </div>
-                    <p class="text-gray-300 mb-4">Focused on Retail and Manufacturing domains (Steel Wire/Synthetic solutions). Key contributor to test scenarios execution based on <span class="font-bold text-white">Behavior Driven Testing (BDD)</span> methodologies.</p>
-                    <p class="text-sm font-semibold text-soft-text mb-2">Key Responsibilities:</p>
-                    <ul class="list-disc ml-5 text-sm text-gray-400 space-y-1 mb-4">
-                        <li>Created automation reports using the custom <span class="font-bold text-white">Digital Automation Framework (DAF)</span>.</li>
-                        <li>Executed and created Test Plans, Test Designs, and Test Cases for features.</li>
-                        <li>Involved in various standard testing strategies: Unit, Integration, Operation, and System tests.</li>
-                    </ul>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="bg-blue-900/50 text-xs text-accent-blue px-3 py-1 rounded-full">Python</span>
-                        <span class="bg-blue-900/50 text-xs text-accent-blue px-3 py-1 rounded-full">BDD</span>
-                        <span class="bg-blue-900/50 text-xs text-accent-blue px-3 py-1 rounded-full">DAF</span>
-                        <span class="bg-blue-900/50 text-xs text-accent-blue px-3 py-1 rounded-full">AEM / Magento</span>
-                        <span class="bg-blue-900/50 text-xs text-accent-blue px-3 py-1 rounded-full">Retail Domain</span>
-                    </div>
-                </div>
-
-                <!-- Project Card 3: Embibe (Ed-Tech) -->
-                <div class="p-6 bg-gray-800 rounded-xl shadow-xl hover:shadow-2xl hover:border-accent-blue border-t-4 border-gray-800 hover:border-accent-blue transition duration-300">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3">
-                        <h4 class="text-2xl font-bold text-white">Embibe Ed-Tech Platform QA (Indium Software)</h4>
-                        <span class="text-sm text-gray-400 mt-1 sm:mt-0 font-medium whitespace-nowrap">May 2019 – Mar 2021 | QA Engineer</span>
-                    </div>
-                    <p class="text-gray-300 mb-4">QA for a major in-house student study platform in the <span class="font-bold text-white">Education (Ed-Tech)</span> domain. Focused on validating asset creation, reporting, and core GUI functionality.</p>
-                    <p class="text-sm font-semibold text-soft-text mb-2">Key Responsibilities:</p>
-                    <ul class="list-disc ml-5 text-sm text-gray-400 space-y-1 mb-4">
-                        <li>Developed and maintained automation scripts using the <span class="font-bold text-white">ROBOT Framework</span> with Python.</li>
-                        <li>Performed extensive back-end testing using <span class="font-bold text-white">POSTMAN</span> and direct querying on <span class="font-bold text-white">MongoDB</span> and <span class="font-bold text-white">Postgres SQL</span> via Putty.</li>
-                        <li>Involved in test case review, test bed handling, and creating Jasper reports for status reporting.</li>
-                    </ul>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="bg-blue-900/50 text-xs text-accent-blue px-3 py-1 rounded-full">ROBOT Framework</span>
-                        <span class="bg-blue-900/50 text-xs text-accent-blue px-3 py-1 rounded-full">Python</span>
-                        <span class="bg-blue-900/50 text-xs text-accent-blue px-3 py-1 rounded-full">API Testing (POSTMAN)</span>
-                        <span class="bg-blue-900/50 text-xs text-accent-blue px-3 py-1 rounded-full">NoSQL (MongoDB)</span>
-                        <span class="bg-blue-900/50 text-xs text-accent-blue px-3 py-1 rounded-full">Ed-Tech</span>
-                    </div>
-                </div>
-
-                <!-- Project Card 4: TIMS - SES (Insurance) -->
-                <div class="p-6 bg-gray-800 rounded-xl shadow-xl hover:shadow-2xl hover:border-accent-blue border-t-4 border-gray-800 hover:border-accent-blue transition duration-300">
-                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3">
-                        <h4 class="text-2xl font-bold text-white">TIMS - SES: Insurance Management Systems QA</h4>
-                        <span class="text-sm text-gray-400 mt-1 sm:mt-0 font-medium whitespace-nowrap">Oct 2017 – Feb 2019 | QA Engineer</span>
-                    </div>
-                    <p class="text-gray-300 mb-4">QA for a proprietary <span class="font-bold text-white">Total Insurance Management Systems (TIMS-SES)</span> solution, handling end-to-end policy and claims management for client portfolios.</p>
-                    <p class="text-sm font-semibold text-soft-text mb-2">Key Responsibilities:</p>
-                    <ul class="list-disc ml-5 text-sm text-gray-400 space-y-1 mb-4">
-                        <li>Implemented automation using the <span class="font-bold text-white">ROBOT Framework</span> for the Insurance domain.</li>
-                        <li>Validated self-service capabilities (Asset upload, property manager maintenance).</li>
-                        <li>Performed the full STLC including Functional, System, and Performance Testing.</li>
-                        <li>Managed defect tracking in <span class="font-bold text-white">JIRA</span> and <span class="font-bold text-white">Test Rail</span> and participated in daily scrum calls.</li>
-                    </ul>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="bg-blue-900/50 text-xs text-accent-blue px-3 py-1 rounded-full">ROBOT Framework</span>
-                        <span class="bg-blue-900/50 text-xs text-accent-blue px-3 py-1 rounded-full">Insurance Domain</span>
-                        <span class="bg-blue-900/50 text-xs text-accent-blue px-3 py-1 rounded-full">Full STLC</span>
-                        <span class="bg-blue-900/50 text-xs text-accent-blue px-3 py-1 rounded-full">API Validation</span>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-        <!-- 5. Blog Section (New) -->
-        <section id="blog" class="py-12 md:py-16 border-t border-gray-800">
-            <h3 class="text-4xl font-bold section-header mb-12">My QA Blog & Insights</h3>
-            <p class="text-xl text-gray-300 mb-8 max-w-2xl">
-                Sharing thoughts, tutorials, and deep dives into automation frameworks, CI/CD best practices, and the future of Quality Engineering.
-            </p>
-            
-            <div class="grid md:grid-cols-3 gap-8">
-                
-                <!-- Blog Post 1 -->
-                <div class="bg-gray-800 rounded-xl overflow-hidden shadow-lg transition duration-300 hover:shadow-accent-blue/50 hover:border-b-4 border-accent-blue">
-                    <div class="p-6">
-                        <span class="text-xs font-semibold text-accent-blue uppercase">Automation | Java</span>
-                        <h4 class="text-xl font-bold text-white mt-2 mb-3">Mastering the Selenium Page Object Model (POM)</h4>
-                        <p class="text-sm text-gray-400">A detailed guide on structuring robust and maintainable test automation frameworks using POM with Java and TestNG. Includes best practices for factory patterns.</p>
-                        <a href="#" class="mt-4 inline-block text-accent-blue hover:text-blue-400 font-medium text-sm">Read Article &rarr;</a>
-                    </div>
-                </div>
-
-                <!-- Blog Post 2 -->
-                <div class="bg-gray-800 rounded-xl overflow-hidden shadow-lg transition duration-300 hover:shadow-accent-blue/50 hover:border-b-4 border-accent-blue">
-                    <div class="p-6">
-                        <span class="text-xs font-semibold text-accent-blue uppercase">CI/CD | DevOps</span>
-                        <h4 class="text-xl font-bold text-white mt-2 mb-3">Integrating Jenkins Pipelines for Scalable Testing</h4>
-                        <p class="text-sm text-gray-400">Step-by-step tutorial on setting up a Jenkins pipeline to trigger automated regression suites on a daily schedule, ensuring continuous quality assurance.</p>
-                        <a href="#" class="mt-4 inline-block text-accent-blue hover:text-blue-400 font-medium text-sm">Read Article &rarr;</a>
-                    </div>
-                </div>
-                
-                <!-- Blog Post 3 -->
-                <div class="p-6 bg-gray-800 rounded-xl overflow-hidden shadow-lg transition duration-300 hover:shadow-accent-blue/50 hover:border-b-4 border-accent-blue">
-                    <div class="p-6">
-                        <span class="text-xs font-semibold text-accent-blue uppercase">API Testing | RestAssured</span>
-                        <h4 class="text-xl font-bold text-white mt-2 mb-3">Deep Dive into RestAssured: Handling Complex Payloads</h4>
-                        <p class="text-sm text-gray-400">Exploring advanced techniques in RestAssured for validating complex JSON structures, dynamic data generation, and parameterizing requests for robust API testing.</p>
-                        <a href="#" class="mt-4 inline-block text-accent-blue hover:text-blue-400 font-medium text-sm">Read Article &rarr;</a>
-                    </div>
-                </div>
-                
-            </div>
-        </section>
-
-        <!-- 6. Subscribe Section (New) -->
-        <section id="subscribe" class="py-12 md:py-16 border-t border-gray-800 bg-gray-900 rounded-xl shadow-2xl">
-            <div class="max-w-2xl mx-auto text-center p-6">
-                <h3 class="text-4xl font-bold text-white mb-4">Don't Miss My Next QA Insight!</h3>
-                <p class="text-xl text-gray-300 mb-8">
-                    Subscribe to get monthly updates on new articles, framework guides, and career tips directly in your inbox.
+        <!-- About Section -->
+        <section id="about" class="space-y-6">
+            <h3 class="text-3xl font-bold text-gray-800 border-b pb-2">About Me</h3>
+            <div class="card p-8">
+                <p class="text-lg text-gray-600 leading-relaxed">
+                    I am a results-oriented Quality Engineer with over **8 years** of extensive experience in the Software Development Life Cycle (SDLC), primarily focused on **test automation** and robust quality assurance processes. My expertise spans across designing, developing, and implementing automated testing solutions for both front-end web applications and back-end APIs. I am passionate about utilizing tools like **Selenium, Playwright, Cucumber, and Rest Assured** to ensure superior product quality and a seamless user experience. Currently, I am focused on leveraging my skills to contribute to high-performing teams and drive continuous improvement in engineering practices.
                 </p>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="space-y-6">
+            <h3 class="text-3xl font-bold text-gray-800 border-b pb-2">Technical Skills</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 
-                <form id="subscribe-form" class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <input 
-                        type="email" 
-                        id="email-input" 
-                        placeholder="Enter your email address" 
-                        required 
-                        class="w-full sm:w-2/3 px-5 py-3 rounded-lg border border-gray-700 bg-dark-bg text-white focus:ring-accent-blue focus:border-accent-blue transition duration-300 placeholder-gray-500"
-                    />
-                    <button 
-                        type="submit" 
-                        id="subscribe-button"
-                        class="w-full sm:w-1/3 px-6 py-3 bg-green-500 text-dark-bg font-bold rounded-lg shadow-lg hover:bg-green-400 transition duration-300 transform hover:scale-105"
-                    >
-                        Subscribe Now
+                <!-- Automation Tools -->
+                <div class="card p-6">
+                    <h4 class="text-xl font-semibold text-blue-600 mb-4 flex items-center"><i class="fas fa-robot mr-3"></i> Automation Frameworks</h4>
+                    <ul class="space-y-2 text-gray-600">
+                        <li>Selenium WebDriver, Playwright, ROBOT</li>
+                        <li>Cucumber BDD (Behavior-Driven Development)</li>
+                        <li>Rest Assured API, Postman, Swagger</li>
+                        <li>TestNG, Extent Report, Surefire report</li>
+                    </ul>
+                </div>
+
+                <!-- Programming Languages -->
+                <div class="card p-6">
+                    <h4 class="text-xl font-semibold text-blue-600 mb-4 flex items-center"><i class="fas fa-code mr-3"></i> Languages & Tools</h4>
+                    <ul class="space-y-2 text-gray-600">
+                        <li>Java, TypeScript, Python</li>
+                        <li>SQL, PL SQL (MySQL, Mongo DB)</li>
+                        <li>Git, GitHub, Bitbucket, GitLab</li>
+                        <li>CI/CD: Jenkins, Docker, Maven</li>
+                    </ul>
+                </div>
+
+                <!-- Methodologies & Management -->
+                <div class="card p-6">
+                    <h4 class="text-xl font-semibold text-blue-600 mb-4 flex items-center"><i class="fas fa-sitemap mr-3"></i> Methodologies & Management</h4>
+                    <ul class="space-y-2 text-gray-600">
+                        <li>Agile Methodology</li>
+                        <li>Page Object Model (POM)</li>
+                        <li>Defect Tracking: JIRA, Confluence, SNOW, Test Rail</li>
+                        <li>TOSCA (Model-based test automation)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience Section -->
+        <section id="experience" class="space-y-6">
+            <div class="flex justify-between items-center border-b pb-2">
+                <h3 class="text-3xl font-bold text-gray-800">Work Experience</h3>
+                <a href="uploaded:ManishKumar_Automation.pdf" download="ManishKumar_Automation.pdf" class="primary-button text-sm flex-shrink-0">
+                    <i class="fas fa-download mr-2"></i> Download Full Resume (PDF)
+                </a>
+            </div>
+            
+            <div class="space-y-8">
+                <!-- Job 1 -->
+                <div class="card p-6">
+                    <h4 class="text-2xl font-bold text-gray-800">Specialist – Quality Engineering</h4>
+                    <p class="text-blue-600 font-semibold mt-1">LTIMINDTREE, Bangalore</p>
+                    <p class="text-sm text-gray-500 mt-1">April 2021 – Present</p>
+                    <ul class="list-disc list-inside mt-4 text-gray-700 space-y-2">
+                        <li>Led the design and development of automated test suites using **Playwright** and **TypeScript** for front-end regression testing, resulting in a **30% reduction** in manual testing time.</li>
+                        <li>Implemented CI/CD pipelines using **Jenkins** and **Docker** for continuous integration and automated deployment of test environments.</li>
+                        <li>Developed API test automation frameworks using **Rest Assured (Java)** and Postman, ensuring the reliability of core backend services.</li>
+                        <li>Actively involved in BDD practices using **Cucumber**, facilitating better collaboration between development and business teams.</li>
+                    </ul>
+                </div>
+
+                <!-- Job 2 (Placeholder/Template) -->
+                <div class="card p-6 opacity-75">
+                    <h4 class="text-2xl font-bold text-gray-800">Previous Roles (Summary)</h4>
+                    <p class="text-blue-600 font-semibold mt-1">Various Companies</p>
+                    <p class="text-sm text-gray-500 mt-1">Prior to April 2021</p>
+                    <ul class="list-disc list-inside mt-4 text-gray-700 space-y-2">
+                        <li>**Automation Analyst (Summary):** Focus on Selenium WebDriver, Java, and TestNG for various clients in the banking and finance sector.</li>
+                        <li>Involved in manual testing, defect tracking (JIRA), and preparing detailed test cases for system and integration testing.</li>
+                        <li>Gained early experience in SAP (SD Module) environments, achieving proficiency in various testing strategies.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Section (New) -->
+        <section id="blog" class="space-y-6">
+            <h3 class="text-3xl font-bold text-gray-800 border-b pb-2">Latest Insights (Blog)</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Post 1 -->
+                <div class="card p-6">
+                    <span class="text-xs font-semibold uppercase text-blue-600">Automation</span>
+                    <h4 class="text-xl font-bold text-gray-800 mt-2">The Future is Playwright: Why I Switched from Selenium</h4>
+                    <p class="text-gray-600 mt-3 line-clamp-3">
+                        Playwright has revolutionized my approach to end-to-end testing. Its auto-wait capabilities, multi-browser support, and excellent tooling, including codegen, have significantly boosted my team's efficiency and test reliability. This post details the technical reasons behind the migration.
+                    </p>
+                    <a href="#" class="text-blue-600 font-medium mt-3 inline-block hover:text-blue-800">Read More &rarr;</a>
+                </div>
+                <!-- Post 2 -->
+                <div class="card p-6">
+                    <span class="text-xs font-semibold uppercase text-blue-600">DevOps</span>
+                    <h4 class="text-xl font-bold text-gray-800 mt-2">Integrating Test Automation into the Jenkins Pipeline</h4>
+                    <p class="text-gray-600 mt-3 line-clamp-3">
+                        Continuous integration requires seamless testing. This guide walks through configuring a Jenkins job to automatically pull test code from Git, build the project with Maven, and run Cucumber test suites after every code merge. Essential for a robust CI/CD workflow.
+                    </p>
+                    <a href="#" class="text-blue-600 font-medium mt-3 inline-block hover:text-blue-800">Read More &rarr;</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Subscribe Section (New) -->
+        <section id="subscribe" class="space-y-6">
+            <h3 class="text-3xl font-bold text-gray-800 border-b pb-2">Stay Updated</h3>
+            <div class="card p-8 text-center bg-blue-50">
+                <h4 class="text-2xl font-bold text-gray-800">Subscribe for Quality Engineering Insights</h4>
+                <p class="text-gray-600 mt-3 mb-6 max-w-lg mx-auto">
+                    Get my latest articles on test automation, BDD, Playwright tutorials, and career advice directly in your inbox.
+                </p>
+                <form id="subscription-form" class="max-w-md mx-auto flex flex-col sm:flex-row gap-4">
+                    <input type="email" id="subscription-email" placeholder="Enter your email address" required class="flex-grow p-3 rounded-xl border border-gray-300 focus:ring-blue-500 focus:border-blue-500 shadow-sm">
+                    <button type="submit" class="primary-button flex-shrink-0">
+                        <i class="fas fa-check-circle mr-2"></i> Subscribe
                     </button>
                 </form>
-                <p id="subscription-status" class="mt-4 text-sm text-gray-400 hidden">Thank you for subscribing!</p>
             </div>
         </section>
 
+        <!-- Contact Section -->
+        <section id="contact" class="space-y-6">
+            <h3 class="text-3xl font-bold text-gray-800 border-b pb-2">Contact & Connect</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Contact Details -->
+                <div class="card p-8 space-y-4">
+                    <h4 class="text-xl font-semibold text-blue-600 flex items-center"><i class="fas fa-id-card mr-3"></i> Direct Contact</h4>
+                    <div class="space-y-3">
+                        <p class="flex items-center text-gray-700"><i class="fas fa-envelope mr-3 text-blue-500"></i> ranamanish7878@gmail.com</p>
+                        <p class="flex items-center text-gray-700"><i class="fas fa-phone mr-3 text-blue-500"></i> +91 8553577841</p>
+                        <p class="flex items-center text-gray-700"><i class="fas fa-location-dot mr-3 text-blue-500"></i> Bengaluru, Karnataka, India</p>
+                    </div>
 
-        <!-- 7. Contact Section (Original) -->
-        <section id="contact" class="py-12 md:py-16 border-t border-gray-800 text-center">
-            <h3 class="text-4xl font-bold section-header mx-auto mb-8">Get In Touch</h3>
-            <p class="max-w-xl mx-auto text-xl text-gray-300 mb-8">
-                I'm always keen on discussing new software challenges, system architecture, and cutting-edge technologies. You can scan the code below to start a direct WhatsApp chat or use the email option.
-            </p>
-            
-            <!-- WhatsApp QR Code Block -->
-            <div class="mb-8 p-6 bg-gray-800 inline-block rounded-xl shadow-2xl border-b-4 border-green-500 transform transition duration-300 hover:scale-[1.02] hover:shadow-green-500/50">
-                <p class="text-lg font-semibold text-white mb-4 flex items-center justify-center">
-                    <svg class="w-6 h-6 mr-2 text-green-400" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.015 2.532a10.874 10.874 0 00-10.7 10.99A10.884 10.884 0 0012.015 24c5.968 0 10.8-4.832 10.8-10.8 0-5.968-4.832-10.668-10.7-10.668zM17.15 15.65c-.21.57-.74.67-1.35.45-.6-.22-2.14-.88-3.95-1.64-1.81-.76-2.92-2.22-3.13-2.79-.21-.57-.02-1.11.45-1.57.47-.46 1.05-.72 1.35-.95.3-.22.3-.49.1-.78-.2-.29-.74-1.78-1.02-2.4-.28-.62-.57-.5-.78-.5-.21 0-.46-.02-.7-.02-.23 0-.61.12-.9.4-.29.28-1.09 1.06-1.09 2.57 0 1.51 1.12 3.2 1.58 3.84.46.64 2.19 3.51 5.34 4.88 3.15 1.37 3.51 1.23 4.1 1.15.59-.08 1.55-.63 1.77-1.22.22-.6.22-1.12.16-1.22-.06-.1-.23-.15-.46-.26z"/></svg>
-                    Scan to Chat on WhatsApp
-                </p>
-                <!-- QR Code for WhatsApp number: +91 8553577841 -->
-                <a href="https://wa.me/918553577841" target="_blank" aria-label="Chat with Manish on WhatsApp">
-                    <img 
-                        src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://wa.me/918553577841" 
-                        alt="WhatsApp QR Code for 918553577841" 
-                        class="w-48 h-48 rounded-lg border-2 border-green-500 mx-auto bg-white p-1"
-                    />
-                </a>
-                <p class="text-sm text-gray-400 mt-2">Private chat link. No phone number displayed.</p>
+                    <h4 class="text-xl font-semibold text-blue-600 pt-4 flex items-center"><i class="fas fa-share-alt mr-3"></i> Connect Online</h4>
+                    <div class="flex space-x-5 text-2xl pt-2">
+                        <a href="https://www.linkedin.com/in/manish-kumar-323bba78/" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-blue-700 transition duration-300"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://www.facebook.com/RanaManishSinghCSE" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-blue-700 transition duration-300"><i class="fab fa-facebook"></i></a>
+                        <a href="https://www.instagram.com/talk2_manishsinghrana/" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-pink-600 transition duration-300"><i class="fab fa-instagram"></i></a>
+                        <a href="https://x.com/Talk2ManishRana" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:text-gray-900 transition duration-300"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+
+                <!-- WhatsApp QR Code Scanner -->
+                <div class="card p-8 text-center bg-green-50">
+                    <h4 class="text-xl font-semibold text-green-600 flex items-center justify-center"><i class="fab fa-whatsapp mr-3"></i> Instant Chat</h4>
+                    <p class="text-gray-600 mt-2">Scan this QR code to start a chat on WhatsApp instantly without needing to save the number.</p>
+                    <div class="w-36 h-36 mx-auto mt-4 p-2 bg-white rounded-lg shadow-lg">
+                        <!-- WhatsApp QR Code for +918553577841 (Mock Image URL) -->
+                        <a href="https://wa.me/918553577841" target="_blank" rel="noopener noreferrer">
+                            <img src="https://placehold.co/128x128/00bb2d/ffffff?text=WhatsApp+QR" alt="WhatsApp QR Code" class="w-full h-full object-contain">
+                        </a>
+                    </div>
+                    <a href="https://wa.me/918553577841" target="_blank" rel="noopener noreferrer" class="text-green-600 font-medium mt-4 inline-block hover:text-green-800">
+                        Start Chat Now &rarr;
+                    </a>
+                </div>
             </div>
-
-            <!-- Email Link Button -->
-            <a href="mailto:ranamanish7878@gmail.com" class="px-8 py-4 border-2 border-accent-blue text-accent-blue font-semibold text-lg rounded-lg hover:bg-accent-blue hover:text-white transition duration-300 shadow-md">
-                Say Hello via Email
-            </a>
-
-            <!-- Full set of Social Links in Contact Footer -->
-            <div class="mt-10 flex justify-center space-x-6">
-                <!-- GitHub -->
-                <a href="https://github.com/manishcse" target="_blank" class="text-gray-400 hover:text-white transition duration-300">
-                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.884-.015-1.745-2.784.605-3.367-1.341-3.367-1.341-.454-1.156-1.11-1.46-1.11-1.46-.909-.62.068-.608.068-.608 1.004.07 1.531 1.032 1.531 1.032.892 1.528 2.341 1.087 2.91.831.091-.645.356-1.087.645-1.334-2.22-.25-4.555-1.11-4.555-4.927 0-1.088.389-1.979 1.029-2.675-.102-.25-.446-1.266.098-2.638 0 0 .84-.268 2.75 1.022A9.702 9.702 0 0112 5.093c.85.004 1.705.115 2.504.337 1.909-1.29 2.747-1.022 2.747-1.022.546 1.372.202 2.388.099 2.638.64.696 1.028 1.587 1.028 2.675 0 3.826-2.338 4.673-4.566 4.92.359.31.678.924.678 1.855 0 1.335-.012 2.417-.012 2.747 0 .267.18.575.688.483C19.137 20.198 22 16.442 22 12.017 22 6.484 17.523 2 12 2Z" clip-rule="evenodd"/></svg>
-                </a>
-                <!-- LinkedIn -->
-                <a href="https://www.linkedin.com/in/manish-kumar-323bba78/" target="_blank" class="text-gray-400 hover:text-white transition duration-300">
-                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3v9zM6.5 8.25A1.75 1.75 0 118.25 6.5 1.75 1.75 0 016.5 8.25zM19 19h-3v-4.72c0-1.19-.48-1.59-1.31-1.59-1.31 0-1.69.96-1.69 2.48V19h-3v-9h3v1.39c.65-.95 1.25-1.64 2.85-1.64 2.07 0 3.65 1.37 3.65 4.38V19z"/></svg>
-                </a>
-                <!-- Facebook -->
-                <a href="https://www.facebook.com/RanaManishSinghCSE" target="_blank" class="text-gray-400 hover:text-white transition duration-300">
-                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M22.7 0H1.3C.58 0 0 .58 0 1.3V22.7c0 .72.58 1.3 1.3 1.3H12V14.7h-3v-3h3V8.7c0-3.1 1.84-4.79 4.67-4.79 1.33 0 2.47.1 2.8.14V7.5H18.5c-1.48 0-1.78.7-1.78 1.76V11.7h3l-.52 3H15V24h7.7c.72 0 1.3-.58 1.3-1.3V1.3c0-.72-.58-1.3-1.3-1.3z"/></svg>
-                </a>
-                <!-- Instagram -->
-                <a href="https://www.instagram.com/talk2_manishsinghrana/" target="_blank" class="text-gray-400 hover:text-white transition duration-300">
-                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.163c3.204 0 3.58.013 4.85.071 1.178.056 1.954.236 2.658.517.653.265 1.22.64 1.76.64.54 0 1.107-.375 1.76-.64.704-.281 1.48-.461 2.658-.517 1.27-.058 1.646-.071 4.85-.071zm0 2.138c3.15 0 3.49.012 4.74.07 1.14.055 1.76.223 2.37.47.58.23 1.05.52 1.54.91.49.39.78.86 1.01 1.44.24.61.41 1.23.47 2.37.058 1.25.07 1.59.07 4.74s-.012 3.49-.07 4.74c-.055 1.14-.223 1.76-.47 2.37-.23.58-.52 1.05-.91 1.54-.39.49-.86.78-1.44 1.01-.61.24-1.23.41-2.37.47-1.25.058-1.59.07-4.74.07s-3.49-.012-4.74-.07c-1.14-.055-1.76-.223-2.37-.47-.58-.23-1.05-.52-1.54-.91-.49-.39-.78-.86-1.01-1.44-.24-.61-.41-1.23-.47-2.37-.058-1.25-.07-1.59-.07-4.74s.012-3.49.07-4.74c.055-1.14.223-1.76.47-2.37.23-.58.52-1.05.91-1.54.39-.49.86-.78 1.44-1.01.61-.24 1.23-.41 2.37-.47C8.51 4.293 8.85 4.28 12 4.28zM12 7.863c-2.296 0-4.137 1.84-4.137 4.137s1.84 4.137 4.137 4.137 4.137-1.84 4.137-4.137-1.84-4.137-4.137-4.137zm0 2.138c1.15 0 2.05.9 2.05 2.05s-.9 2.05-2.05 2.05-2.05-.9-2.05-2.05.9-2.05 2.05-2.05zm6.577-3.665c-.58 0-1.05.47-1.05 1.05s.47 1.05 1.05 1.05 1.05-.47 1.05-1.05-.47-1.05-1.05-1.05z"/></svg>
-                </a>
-                <!-- Twitter (X) -->
-                <a href="https://x.com/Talk2ManishRana" target="_blank" class="text-gray-400 hover:text-white transition duration-300">
-                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.261 8.504 11.238h-7.143l-5.321-7.062-6.505 7.062h-3.308l7.66-8.736L2.99 2.25h7.33l4.745 6.404L18.244 2.25zm-2.88 15.118H18.7l-7.086-9.289-5.127 6.69z"/></svg>
-                </a>
-            </div>
-
         </section>
-
     </main>
 
     <!-- Footer -->
-    <footer class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 border-t border-gray-800 text-center text-sm text-gray-500">
-        <p>&copy; 2024 Manish CSE. Designed and built with Tailwind CSS.</p>
+    <footer class="bg-gray-800 text-white py-8 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p>&copy; 2025 Manish Kumar. All rights reserved.</p>
+            <p class="text-sm text-gray-400 mt-2">Specialist - Quality Engineering Portfolio.</p>
+        </div>
     </footer>
 
-    <!-- Firebase Imports and Script Logic -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, serverTimestamp, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // Global Firebase Variables
-        let db, auth, userId;
-        let isFirebaseReady = false; // NEW FLAG to track readiness
+        import { getFirestore, doc, setDoc, collection } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         
+        // --- GLOBAL VARIABLES (MANDATORY) ---
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        // ------------------------------------
 
-        setLogLevel('Debug');
+        let app, db, auth, userId = null;
+        let isFirebaseReady = false; // Flag to track Firebase readiness
 
-        /**
-         * Initializes Firebase and authenticates the user.
-         */
+        // Message Box Elements
+        const messageBox = document.getElementById('message-box');
+        const messageTitle = document.getElementById('message-title');
+        const messageText = document.getElementById('message-text');
+        const messageIcon = document.getElementById('message-icon');
+
+        // Function to display custom messages
+        function showMessage(title, text, type = 'info') {
+            messageTitle.textContent = title;
+            messageText.textContent = text;
+            
+            // Set icon and color based on type
+            messageIcon.innerHTML = '';
+            messageBox.className = 'bg-white p-4 rounded-lg shadow-2xl w-80 fixed top-4 right-4 z-1000 transform transition-transform duration-400 ease-out show';
+            
+            if (type === 'success') {
+                messageIcon.innerHTML = '<i class="fas fa-check-circle text-xl"></i>';
+                messageBox.classList.add('border-l-4', 'border-green-500');
+                messageIcon.querySelector('i').classList.add('text-green-500');
+            } else if (type === 'error') {
+                messageIcon.innerHTML = '<i class="fas fa-times-circle text-xl"></i>';
+                messageBox.classList.add('border-l-4', 'border-red-500');
+                messageIcon.querySelector('i').classList.add('text-red-500');
+            } else { // info
+                messageIcon.innerHTML = '<i class="fas fa-info-circle text-xl"></i>';
+                messageBox.classList.add('border-l-4', 'border-blue-500');
+                messageIcon.querySelector('i').classList.add('text-blue-500');
+            }
+
+            // Hide after 4 seconds
+            setTimeout(() => {
+                messageBox.classList.remove('show');
+                messageBox.style.transform = 'translateX(120%)';
+            }, 4000);
+        }
+
+        // --- FIREBASE INITIALIZATION AND AUTHENTICATION ---
         async function initializeFirebase() {
             try {
-                const app = initializeApp(firebaseConfig);
+                if (Object.keys(firebaseConfig).length === 0) {
+                     console.error("Firebase config is missing.");
+                     return;
+                }
+                
+                app = initializeApp(firebaseConfig);
                 db = getFirestore(app);
                 auth = getAuth(app);
-                
-                if (initialAuthToken) {
-                    // Sign in with provided custom token
-                    await signInWithCustomToken(auth, initialAuthToken);
-                } else {
-                    // Sign in anonymously if no token is available
-                    await signInAnonymously(auth);
-                }
 
-                // Wait for the auth state to be resolved to get the final userId
-                return new Promise((resolve) => {
-                    // onAuthStateChanged is guaranteed to fire after sign-in attempts
-                    const unsubscribe = onAuthStateChanged(auth, (user) => {
-                        userId = user ? user.uid : crypto.randomUUID();
-                        console.log("Firebase initialized. User ID:", userId);
-                        isFirebaseReady = true; // Set the flag only after userId is definitively set
-                        unsubscribe(); // Stop listening after the first check
-                        resolve();
-                    });
+                // Set up authentication listener
+                onAuthStateChanged(auth, async (user) => {
+                    if (user) {
+                        userId = user.uid;
+                        console.log("Authenticated user ID:", userId);
+                    } else {
+                        // Attempt to sign in if no user is found
+                        try {
+                            if (initialAuthToken) {
+                                await signInWithCustomToken(auth, initialAuthToken);
+                            } else {
+                                await signInAnonymously(auth);
+                            }
+                            userId = auth.currentUser.uid;
+                            console.log("Authenticated (or signed-in anonymously) user ID:", userId);
+                        } catch (e) {
+                            console.error("Failed to sign in:", e);
+                            userId = crypto.randomUUID(); // Fallback ID
+                        }
+                    }
+                    isFirebaseReady = true;
+                    console.log("Firebase is ready. UserId:", userId);
                 });
 
             } catch (error) {
                 console.error("Error initializing Firebase:", error);
-                showMessage("Database connection failed. Check console for details.", 'error');
-                isFirebaseReady = false; // Ensure flag is false on error
+                showMessage("Database Error", "Failed to initialize the database connection. Please check the console.", "error");
             }
         }
 
-        /**
-         * Utility function to display a custom message box instead of alert()
-         */
-        function showMessage(message, type = 'success') {
-            const box = document.getElementById('message-box');
-            box.textContent = message;
-            box.className = 'show'; // Reset classes to just 'show'
-
-            if (type === 'success') {
-                box.classList.add('bg-green-600');
-                box.classList.add('text-white');
-            } else if (type === 'error') {
-                box.classList.add('bg-red-600');
-                box.classList.add('text-white');
-            } else {
-                box.classList.add('bg-blue-600');
-                box.classList.add('text-white');
-            }
-
-            // Hide the message after 4 seconds
-            setTimeout(() => {
-                box.classList.remove('show');
-            }, 4000);
-        }
-
-        // --- Mobile Menu Toggle Functions ---
-
-        window.toggleMobileMenu = function() {
-            const menu = document.getElementById('mobile-menu');
-            const menuIcon = document.getElementById('menu-icon');
-            const closeIcon = document.getElementById('close-icon');
-
-            // Toggle the 'hidden' class on the menu (open/close)
-            menu.classList.toggle('hidden');
-
-            // Toggle the icons
-            menuIcon.classList.toggle('hidden');
-            closeIcon.classList.toggle('hidden');
-        }
-
-        window.closeMobileMenu = function() {
-            const menu = document.getElementById('mobile-menu');
-            const menuIcon = document.getElementById('menu-icon');
-            const closeIcon = document.getElementById('close-icon');
-
-            // Only close if it's currently visible
-            if (!menu.classList.contains('hidden')) {
-                menu.classList.add('hidden');
-                menuIcon.classList.remove('hidden');
-                closeIcon.classList.add('hidden');
-            }
-        }
-
-        // --- End Mobile Menu Toggle Functions ---
-
-        /**
-         * Handles the subscription form submission, saving the email to Firestore.
-         */
-        async function handleSubscription(e) {
-            e.preventDefault();
-            const emailInput = document.getElementById('email-input');
-            const subscribeButton = document.getElementById('subscribe-button');
+        // --- SUBSCRIPTION HANDLER ---
+        async function handleSubscription(event) {
+            event.preventDefault();
+            const emailInput = document.getElementById('subscription-email');
             const email = emailInput.value.trim();
-            const statusMessage = document.getElementById('subscription-status');
 
-            // CHECK READINESS using the new flag
-            if (!isFirebaseReady || !db || !userId) {
-                showMessage('Database is not ready. Please wait a moment and try again.', 'error');
-                console.error('Subscription failed: Firebase state is not ready.', { isFirebaseReady, db: !!db, userId });
+            if (!email) {
+                showMessage("Error", "Please enter a valid email address.", "error");
                 return;
             }
 
-            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                showMessage('Please enter a valid email address.', 'error');
+            if (!isFirebaseReady || !userId) {
+                showMessage("Error", "Database is not ready. Please wait a moment and try again.", "error");
                 return;
             }
-            
-            // Disable button during submission
-            subscribeButton.disabled = true;
-            subscribeButton.textContent = 'Subscribing...';
-            subscribeButton.classList.remove('bg-green-500', 'hover:bg-green-400');
-            subscribeButton.classList.add('bg-gray-500');
-
 
             try {
-                // 1. Store the subscription in Firestore (Private Collection for the user)
+                // Save subscription data to the user's private collection
                 const subscriptionsRef = collection(db, `artifacts/${appId}/users/${userId}/subscriptions`);
-                await addDoc(subscriptionsRef, {
+                const timestamp = new Date().toISOString();
+
+                // Use the email itself as the document ID to prevent duplicate subscriptions
+                await setDoc(doc(subscriptionsRef, email.replace(/[.#$/[\]]/g, '_')), {
                     email: email,
-                    subscribedAt: serverTimestamp(),
-                    status: 'pending_confirmation',
-                    source: 'portfolio_website'
+                    subscribedAt: timestamp
                 });
 
-                // 2. Update UI on success
-                emailInput.value = '';
-                statusMessage.textContent = `Success! The email address (${email}) has been saved. A real system would now trigger a confirmation email.`;
-                statusMessage.classList.remove('hidden', 'text-gray-400', 'text-red-500');
-                statusMessage.classList.add('text-green-500', 'font-semibold');
-                
-                showMessage(`Subscription successful! Data saved to the database.`, 'success');
-
-                console.log(`[FIREBASE] Successfully saved subscription for: ${email}`);
-
-            } catch (error) {
-                console.error("Error saving subscription to Firebase:", error);
-                showMessage(`Subscription failed: ${error.message}`, 'error');
-                
-                statusMessage.textContent = `Error saving subscription. Please try again.`;
-                statusMessage.classList.remove('hidden', 'text-gray-400', 'text-green-500');
-                statusMessage.classList.add('text-red-500', 'font-semibold');
-            } finally {
-                // Re-enable button
-                subscribeButton.disabled = false;
-                subscribeButton.textContent = 'Subscribe Now';
-                subscribeButton.classList.add('bg-green-500', 'hover:bg-green-400');
-                subscribeButton.classList.remove('bg-gray-500');
-
-                // Hide the status message after a few seconds
-                setTimeout(() => {
-                    statusMessage.classList.add('hidden');
-                    statusMessage.classList.remove('text-green-500', 'text-red-500');
-                    statusMessage.classList.add('text-gray-400');
-                    statusMessage.textContent = 'Thank you for subscribing!'; // Reset text
-                }, 7000);
+                showMessage(
+                    "Success!",
+                    `Subscription successful for ${email}. A real system would now trigger a welcome email. Data saved to your private Firestore.`,
+                    "success"
+                );
+                emailInput.value = ''; // Clear the input
+            } catch (e) {
+                console.error("Error saving subscription:", e);
+                showMessage(
+                    "Database Error",
+                    "Could not save your subscription. Please try again later.",
+                    "error"
+                );
             }
         }
 
+        // --- MOBILE MENU FUNCTIONALITY (FIXED) ---
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIconOpen = document.getElementById('menu-icon-open');
+        const menuIconClose = document.getElementById('menu-icon-close');
 
-        // --- Initialize App and Attach Event Listeners ---
-
-        window.onload = async function () {
-            // Wait until Firebase is fully initialized and authenticated
-            await initializeFirebase();
-
-            // Attach subscription form handler ONLY after Firebase is ready
-            const subscribeForm = document.getElementById('subscribe-form');
-            if (subscribeForm) {
-                subscribeForm.addEventListener('submit', handleSubscription);
+        function toggleMobileMenu(event) {
+            // This prevents the default link behavior if called from a click event on a link
+            if (event && event.preventDefault) {
+                event.preventDefault();
+                const targetId = event.currentTarget.getAttribute('href').substring(1);
+                document.getElementById(targetId).scrollIntoView({ behavior: 'smooth' });
             }
 
+            const isMenuOpen = mobileMenu.classList.toggle('open');
+            
+            if (isMenuOpen) {
+                menuIconOpen.classList.add('hidden');
+                menuIconClose.classList.remove('hidden');
+            } else {
+                menuIconOpen.classList.remove('hidden');
+                menuIconClose.classList.add('hidden');
+            }
+        }
 
-            // JavaScript for smooth scrolling in mobile/desktop navigation
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function (e) {
-                    // Check if the link is the resume download link, in which case we allow default behavior
-                    if (this.getAttribute('download') !== null) {
-                        return; 
-                    }
-                    e.preventDefault();
-                    
-                    // Close the mobile menu when a navigation link is clicked
-                    window.closeMobileMenu();
+        mobileMenuButton.addEventListener('click', () => toggleMobileMenu(null));
 
-                    // Smooth scroll to the section
-                    const targetElement = document.querySelector(this.getAttribute('href'));
-                    if (targetElement) {
-                        targetElement.scrollIntoView({
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-        };
+        // --- EVENT LISTENERS ---
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeFirebase();
+            const subscriptionForm = document.getElementById('subscription-form');
+            if (subscriptionForm) {
+                subscriptionForm.addEventListener('submit', handleSubscription);
+            }
+        });
     </script>
-
 </body>
 </html>
