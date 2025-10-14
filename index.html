@@ -425,7 +425,7 @@
                 </div>
                 
                 <!-- Blog Post 3 -->
-                <div class="bg-gray-800 rounded-xl overflow-hidden shadow-lg transition duration-300 hover:shadow-accent-blue/50 hover:border-b-4 border-accent-blue">
+                <div class="p-6 bg-gray-800 rounded-xl overflow-hidden shadow-lg transition duration-300 hover:shadow-accent-blue/50 hover:border-b-4 border-accent-blue">
                     <div class="p-6">
                         <span class="text-xs font-semibold text-accent-blue uppercase">API Testing | RestAssured</span>
                         <h4 class="text-xl font-bold text-white mt-2 mb-3">Deep Dive into RestAssured: Handling Complex Payloads</h4>
@@ -536,6 +536,8 @@
 
         // Global Firebase Variables
         let db, auth, userId;
+        let isFirebaseReady = false; // NEW FLAG to track readiness
+        
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
         const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
         const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
@@ -552,23 +554,29 @@
                 auth = getAuth(app);
                 
                 if (initialAuthToken) {
+                    // Sign in with provided custom token
                     await signInWithCustomToken(auth, initialAuthToken);
                 } else {
+                    // Sign in anonymously if no token is available
                     await signInAnonymously(auth);
                 }
 
                 // Wait for the auth state to be resolved to get the final userId
                 return new Promise((resolve) => {
-                    onAuthStateChanged(auth, (user) => {
+                    // onAuthStateChanged is guaranteed to fire after sign-in attempts
+                    const unsubscribe = onAuthStateChanged(auth, (user) => {
                         userId = user ? user.uid : crypto.randomUUID();
                         console.log("Firebase initialized. User ID:", userId);
+                        isFirebaseReady = true; // Set the flag only after userId is definitively set
+                        unsubscribe(); // Stop listening after the first check
                         resolve();
                     });
                 });
 
             } catch (error) {
                 console.error("Error initializing Firebase:", error);
-                showMessage("Database connection failed. Subscription won't be saved.", 'error');
+                showMessage("Database connection failed. Check console for details.", 'error');
+                isFirebaseReady = false; // Ensure flag is false on error
             }
         }
 
@@ -637,8 +645,10 @@
             const email = emailInput.value.trim();
             const statusMessage = document.getElementById('subscription-status');
 
-            if (!db || !userId) {
+            // CHECK READINESS using the new flag
+            if (!isFirebaseReady || !db || !userId) {
                 showMessage('Database is not ready. Please wait a moment and try again.', 'error');
+                console.error('Subscription failed: Firebase state is not ready.', { isFirebaseReady, db: !!db, userId });
                 return;
             }
 
@@ -667,7 +677,7 @@
                 // 2. Update UI on success
                 emailInput.value = '';
                 statusMessage.textContent = `Success! The email address (${email}) has been saved. A real system would now trigger a confirmation email.`;
-                statusMessage.classList.remove('hidden', 'text-gray-400');
+                statusMessage.classList.remove('hidden', 'text-gray-400', 'text-red-500');
                 statusMessage.classList.add('text-green-500', 'font-semibold');
                 
                 showMessage(`Subscription successful! Data saved to the database.`, 'success');
@@ -702,9 +712,10 @@
         // --- Initialize App and Attach Event Listeners ---
 
         window.onload = async function () {
+            // Wait until Firebase is fully initialized and authenticated
             await initializeFirebase();
 
-            // Attach subscription form handler
+            // Attach subscription form handler ONLY after Firebase is ready
             const subscribeForm = document.getElementById('subscribe-form');
             if (subscribeForm) {
                 subscribeForm.addEventListener('submit', handleSubscription);
