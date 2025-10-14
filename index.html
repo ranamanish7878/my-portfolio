@@ -45,21 +45,48 @@
             background-color: #3B82F6; /* accent-blue */
             border-radius: 9999px;
         }
+
+        /* Styling for the temporary message box instead of alert() */
+        #message-box {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            transition: opacity 0.3s ease-in-out;
+            opacity: 0;
+            visibility: hidden;
+        }
+        #message-box.show {
+            opacity: 1;
+            visibility: visible;
+        }
     </style>
 </head>
 <body class="bg-dark-bg text-soft-text leading-relaxed">
 
+    <!-- Message Box (Used instead of alert/confirm) -->
+    <div id="message-box" class="bg-green-600 text-white"></div>
+
+
     <!-- Header Navigation -->
-    <header class="sticky top-0 z-50 bg-dark-bg/95 backdrop-blur-sm shadow-md">
+    <header class="sticky top-0 z-50 bg-dark-bg/95 backdrop-blur-sm shadow-xl">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
             <a href="#" class="text-xl font-bold text-accent-blue tracking-wider">Manish Kumar</a>
-            <nav class="hidden md:block">
-                <a href="#about" class="ml-6 text-sm font-medium hover:text-accent-blue transition duration-150">About</a>
-                <a href="#experience" class="ml-6 text-sm font-medium hover:text-accent-blue transition duration-150">Experience</a>
-                <a href="#projects" class="ml-6 text-sm font-medium hover:text-accent-blue transition duration-150">Projects</a>
-                <a href="#contact" class="ml-6 text-sm font-medium hover:text-accent-blue transition duration-150">Contact</a>
+            <nav class="hidden md:flex items-center space-x-6">
+                <a href="#about" class="text-sm font-medium hover:text-accent-blue transition duration-150">About</a>
+                <a href="#experience" class="text-sm font-medium hover:text-accent-blue transition duration-150">Experience</a>
+                <a href="#projects" class="text-sm font-medium hover:text-accent-blue transition duration-150">Projects</a>
+                <a href="#blog" class="text-sm font-medium hover:text-accent-blue transition duration-150">Blog</a>
+                <a href="#contact" class="text-sm font-medium hover:text-accent-blue transition duration-150">Contact</a>
+                <!-- New Subscribe Button -->
+                <a href="#subscribe" class="px-4 py-2 bg-green-500 text-dark-bg font-semibold rounded-lg shadow-lg hover:bg-green-400 transition duration-300 transform hover:scale-105 ml-4">
+                    Subscribe
+                </a>
             </nav>
-            <!-- Mobile Menu Placeholder (Not fully implemented for brevity, but designed responsively) -->
+            <!-- Mobile Menu Placeholder -->
             <button class="md:hidden text-soft-text hover:text-accent-blue">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
             </button>
@@ -79,11 +106,11 @@
                     <h1 class="text-6xl sm:text-7xl font-extrabold text-white mb-4">Manish Kumar</h1>
                     <h2 class="text-3xl sm:text-4xl font-semibold text-gray-400 mb-6">Specialist – Quality Engineering @ LTIMindtree.</h2>
                     <p class="text-xl text-gray-300">
-                        Career Objective: Improve software quality, meet customer expectations and reduce defects by supporting proven software quality practices and implementing practical and effective process improvement methods..
+                        Career Objective: Improve software quality, meet customer expectations and reduce defects by supporting proven software quality practices and implementing practical and effective process improvement methods.
                     </p>
                     <div class="mt-8 flex space-x-4">
                         <a href="#projects" class="px-6 py-3 bg-accent-blue text-white font-medium rounded-lg shadow-lg hover:bg-blue-600 transition duration-300 transform hover:scale-105">View Projects</a>
-                        <a href="#contact" class="px-6 py-3 border border-gray-600 text-soft-text font-medium rounded-lg hover:bg-gray-700 transition duration-300">Get In Touch</a>
+                        <a href="#subscribe" class="px-6 py-3 border border-green-500 text-green-400 font-medium rounded-lg hover:bg-green-900/30 transition duration-300">Subscribe for Updates</a>
                     </div>
                 </div>
 
@@ -247,7 +274,7 @@
                 </div>
                 
             </div>
-            <!-- UPDATED LINK: Changed href to point to the newly uploaded PDF file name -->
+            <!-- Download Resume Link -->
             <a href="ManishKumar_Automation.pdf" download="Manish_Kumar_Resume.pdf" class="inline-block mt-12 px-6 py-3 bg-accent-blue text-white font-medium rounded-lg shadow-lg hover:bg-blue-600 transition duration-300 transform hover:scale-105">Download Full Resume (PDF) &rarr;</a>
         </section>
 
@@ -348,7 +375,77 @@
             </div>
         </section>
 
-        <!-- 5. Contact Section -->
+        <!-- 5. Blog Section (New) -->
+        <section id="blog" class="py-12 md:py-16 border-t border-gray-800">
+            <h3 class="text-4xl font-bold section-header mb-12">My QA Blog & Insights</h3>
+            <p class="text-xl text-gray-300 mb-8 max-w-2xl">
+                Sharing thoughts, tutorials, and deep dives into automation frameworks, CI/CD best practices, and the future of Quality Engineering.
+            </p>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                
+                <!-- Blog Post 1 -->
+                <div class="bg-gray-800 rounded-xl overflow-hidden shadow-lg transition duration-300 hover:shadow-accent-blue/50 hover:border-b-4 border-accent-blue">
+                    <div class="p-6">
+                        <span class="text-xs font-semibold text-accent-blue uppercase">Automation | Java</span>
+                        <h4 class="text-xl font-bold text-white mt-2 mb-3">Mastering the Selenium Page Object Model (POM)</h4>
+                        <p class="text-sm text-gray-400">A detailed guide on structuring robust and maintainable test automation frameworks using POM with Java and TestNG. Includes best practices for factory patterns.</p>
+                        <a href="#" class="mt-4 inline-block text-accent-blue hover:text-blue-400 font-medium text-sm">Read Article &rarr;</a>
+                    </div>
+                </div>
+
+                <!-- Blog Post 2 -->
+                <div class="bg-gray-800 rounded-xl overflow-hidden shadow-lg transition duration-300 hover:shadow-accent-blue/50 hover:border-b-4 border-accent-blue">
+                    <div class="p-6">
+                        <span class="text-xs font-semibold text-accent-blue uppercase">CI/CD | DevOps</span>
+                        <h4 class="text-xl font-bold text-white mt-2 mb-3">Integrating Jenkins Pipelines for Scalable Testing</h4>
+                        <p class="text-sm text-gray-400">Step-by-step tutorial on setting up a Jenkins pipeline to trigger automated regression suites on a daily schedule, ensuring continuous quality assurance.</p>
+                        <a href="#" class="mt-4 inline-block text-accent-blue hover:text-blue-400 font-medium text-sm">Read Article &rarr;</a>
+                    </div>
+                </div>
+                
+                <!-- Blog Post 3 -->
+                <div class="bg-gray-800 rounded-xl overflow-hidden shadow-lg transition duration-300 hover:shadow-accent-blue/50 hover:border-b-4 border-accent-blue">
+                    <div class="p-6">
+                        <span class="text-xs font-semibold text-accent-blue uppercase">API Testing | RestAssured</span>
+                        <h4 class="text-xl font-bold text-white mt-2 mb-3">Deep Dive into RestAssured: Handling Complex Payloads</h4>
+                        <p class="text-sm text-gray-400">Exploring advanced techniques in RestAssured for validating complex JSON structures, dynamic data generation, and parameterizing requests for robust API testing.</p>
+                        <a href="#" class="mt-4 inline-block text-accent-blue hover:text-blue-400 font-medium text-sm">Read Article &rarr;</a>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+
+        <!-- 6. Subscribe Section (New) -->
+        <section id="subscribe" class="py-12 md:py-16 border-t border-gray-800 bg-gray-900 rounded-xl shadow-2xl">
+            <div class="max-w-2xl mx-auto text-center p-6">
+                <h3 class="text-4xl font-bold text-white mb-4">Don't Miss My Next QA Insight!</h3>
+                <p class="text-xl text-gray-300 mb-8">
+                    Subscribe to get monthly updates on new articles, framework guides, and career tips directly in your inbox.
+                </p>
+                
+                <form id="subscribe-form" class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <input 
+                        type="email" 
+                        id="email-input" 
+                        placeholder="Enter your email address" 
+                        required 
+                        class="w-full sm:w-2/3 px-5 py-3 rounded-lg border border-gray-700 bg-dark-bg text-white focus:ring-accent-blue focus:border-accent-blue transition duration-300 placeholder-gray-500"
+                    />
+                    <button 
+                        type="submit" 
+                        class="w-full sm:w-1/3 px-6 py-3 bg-green-500 text-dark-bg font-bold rounded-lg shadow-lg hover:bg-green-400 transition duration-300 transform hover:scale-105"
+                    >
+                        Subscribe Now
+                    </button>
+                </form>
+                <p id="subscription-status" class="mt-4 text-sm text-gray-400 hidden">Thank you for subscribing!</p>
+            </div>
+        </section>
+
+
+        <!-- 7. Contact Section (Original) -->
         <section id="contact" class="py-12 md:py-16 border-t border-gray-800 text-center">
             <h3 class="text-4xl font-bold section-header mx-auto mb-8">Get In Touch</h3>
             <p class="max-w-xl mx-auto text-xl text-gray-300 mb-8">
@@ -411,13 +508,77 @@
     </footer>
 
     <script>
+        // Utility function to display a custom message box instead of alert()
+        function showMessage(message, type = 'success') {
+            const box = document.getElementById('message-box');
+            box.textContent = message;
+            box.className = 'show'; // Reset classes to just 'show'
+
+            if (type === 'success') {
+                box.classList.add('bg-green-600');
+                box.classList.add('text-white');
+            } else if (type === 'error') {
+                box.classList.add('bg-red-600');
+                box.classList.add('text-white');
+            } else {
+                box.classList.add('bg-blue-600');
+                box.classList.add('text-white');
+            }
+
+            // Hide the message after 3 seconds
+            setTimeout(() => {
+                box.classList.remove('show');
+            }, 3000);
+        }
+
+
+        // Event listener for the subscription form
+        document.getElementById('subscribe-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const emailInput = document.getElementById('email-input');
+            const email = emailInput.value.trim();
+            const statusMessage = document.getElementById('subscription-status');
+
+            if (!email) {
+                showMessage('Please enter a valid email address.', 'error');
+                return;
+            }
+
+            // Simple client-side email validation
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                showMessage('The email format is invalid. Please check your spelling.', 'error');
+                return;
+            }
+
+            // --- PLACEHOLDER: Simulate Subscription Process ---
+            // In a real application, you would send this email to a backend service (like Firestore, Mailchimp, etc.)
+            console.log(`[SUBSCRIPTION MOCK] Attempting to subscribe email: ${email}`);
+            
+            // Clear the input and display success message
+            emailInput.value = '';
+            
+            // Update the UI
+            statusMessage.textContent = `Successfully subscribed: ${email}. Thank you!`;
+            statusMessage.classList.remove('hidden', 'text-gray-400');
+            statusMessage.classList.add('text-green-500', 'font-semibold');
+            
+            // Show custom message box
+            showMessage(`Subscription successful for ${email}! Welcome aboard.`, 'success');
+
+            // Hide the status message after a few seconds
+            setTimeout(() => {
+                statusMessage.classList.add('hidden');
+            }, 5000);
+
+            // --------------------------------------------------
+        });
+
+
         // Simple JavaScript for smooth scrolling in mobile/desktop navigation
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 // Check if the link is the resume download link, in which case we allow default behavior
-                // The logic here is primarily for links starting with #
-                if (this.getAttribute('href').endsWith('.docx') || this.getAttribute('href').endsWith('.pdf')) {
-                    // Let the default download behavior happen
+                if (this.getAttribute('download') !== null) {
                     return; 
                 }
                 e.preventDefault();
