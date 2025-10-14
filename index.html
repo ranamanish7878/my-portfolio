@@ -63,6 +63,16 @@
             opacity: 1;
             visibility: visible;
         }
+        
+        /* Modal specific styles */
+        .modal-overlay {
+            background-color: rgba(0, 0, 0, 0.8);
+            transition: opacity 0.3s ease-in-out;
+            z-index: 60; /* Above header */
+        }
+        .modal-content {
+            max-height: 90vh; /* Make content scrollable */
+        }
     </style>
 </head>
 <body class="bg-dark-bg text-soft-text leading-relaxed">
@@ -79,7 +89,7 @@
                 <a href="#about" class="text-sm font-medium hover:text-accent-blue transition duration-150">About</a>
                 <a href="#experience" class="text-sm font-medium hover:text-accent-blue transition duration-150">Experience</a>
                 <a href="#projects" class="text-sm font-medium hover:text-accent-blue transition duration-150">Projects</a>
-                <a href="#products" class="text-sm font-medium hover:text-accent-blue transition duration-150">Products</a> <!-- NEW MENU ITEM -->
+                <a href="#products" class="text-sm font-medium hover:text-accent-blue transition duration-150">Products</a> 
                 <a href="#blog" class="text-sm font-medium hover:text-accent-blue transition duration-150">Blog</a>
                 <a href="#contact" class="text-sm font-medium hover:text-accent-blue transition duration-150">Contact</a>
                 <!-- New Subscribe Button -->
@@ -103,7 +113,7 @@
             <a href="#about" class="mobile-nav-link block w-full text-center py-3 rounded-lg text-soft-text hover:bg-gray-700/50 hover:text-accent-blue transition duration-150">About</a>
             <a href="#experience" class="mobile-nav-link block w-full text-center py-3 rounded-lg text-soft-text hover:bg-gray-700/50 hover:text-accent-blue transition duration-150">Experience</a>
             <a href="#projects" class="mobile-nav-link block w-full text-center py-3 rounded-lg text-soft-text hover:bg-gray-700/50 hover:text-accent-blue transition duration-150">Projects</a>
-            <a href="#products" class="mobile-nav-link block w-full text-center py-3 rounded-lg text-soft-text hover:bg-gray-700/50 hover:text-accent-blue transition duration-150">Products</a> <!-- NEW MENU ITEM -->
+            <a href="#products" class="mobile-nav-link block w-full text-center py-3 rounded-lg text-soft-text hover:bg-gray-700/50 hover:text-accent-blue transition duration-150">Products</a> 
             <a href="#blog" class="mobile-nav-link block w-full text-center py-3 rounded-lg text-soft-text hover:bg-gray-700/50 hover:text-accent-blue transition duration-150">Blog</a>
             <a href="#contact" class="mobile-nav-link block w-full text-center py-3 rounded-lg text-soft-text hover:bg-gray-700/50 hover:text-accent-blue transition duration-150">Contact</a>
             
@@ -415,45 +425,72 @@
         </section>
 
 
-        <!-- 6. Blog Section (Formerly 5) -->
+        <!-- 6. Blog Section (Formerly 5) - NOW A CAROUSEL -->
         <section id="blog" class="py-12 md:py-16 border-t border-gray-800">
             <h3 class="text-4xl font-bold section-header mb-12">My QA Blog & Insights</h3>
             <p class="text-xl text-gray-300 mb-8 max-w-2xl">
                 Sharing thoughts, tutorials, and deep dives into automation frameworks, CI/CD best practices, and the future of Quality Engineering.
             </p>
             
-            <div class="grid md:grid-cols-3 gap-8">
-                
-                <!-- Blog Post 1 -->
-                <div class="bg-gray-800 rounded-xl overflow-hidden shadow-lg transition duration-300 hover:shadow-accent-blue/50 hover:border-b-4 border-accent-blue">
-                    <div class="p-6">
-                        <span class="text-xs font-semibold text-accent-blue uppercase">Automation | Java</span>
-                        <h4 class="text-xl font-bold text-white mt-2 mb-3">Mastering the Selenium Page Object Model (POM)</h4>
-                        <p class="text-sm text-gray-400">A detailed guide on structuring robust and maintainable test automation frameworks using POM with Java and TestNG. Includes best practices for factory patterns.</p>
-                        <a href="#" class="mt-4 inline-block text-accent-blue hover:text-blue-400 font-medium text-sm">Read Article &rarr;</a>
-                    </div>
-                </div>
+            <!-- Carousel Wrapper -->
+            <div class="relative">
+                <!-- Navigation Buttons (Hidden on MD+ as all 3 cards are visible) -->
+                <button id="prev-slide" aria-label="Previous Article" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 p-3 bg-gray-700/80 rounded-full text-white hover:bg-accent-blue transition duration-300 shadow-lg md:hidden disabled:opacity-50 disabled:cursor-not-allowed ml-2">
+                    <!-- Left Arrow SVG -->
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                </button>
+                <button id="next-slide" aria-label="Next Article" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 p-3 bg-gray-700/80 rounded-full text-white hover:bg-accent-blue transition duration-300 shadow-lg md:hidden disabled:opacity-50 disabled:cursor-not-allowed mr-2">
+                    <!-- Right Arrow SVG -->
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                </button>
 
-                <!-- Blog Post 2 -->
-                <div class="bg-gray-800 rounded-xl overflow-hidden shadow-lg transition duration-300 hover:shadow-accent-blue/50 hover:border-b-4 border-accent-blue">
-                    <div class="p-6">
-                        <span class="text-xs font-semibold text-accent-blue uppercase">CI/CD | DevOps</span>
-                        <h4 class="text-xl font-bold text-white mt-2 mb-3">Integrating Jenkins Pipelines for Scalable Testing</h4>
-                        <p class="text-sm text-gray-400">Step-by-step tutorial on setting up a Jenkins pipeline to trigger automated regression suites on a daily schedule, ensuring continuous quality assurance.</p>
-                        <a href="#" class="mt-4 inline-block text-accent-blue hover:text-blue-400 font-medium text-sm">Read Article &rarr;</a>
+                <!-- Slides Container -->
+                <div id="carousel-container" class="overflow-hidden rounded-xl">
+                    <div id="carousel-track" class="flex transition-transform duration-500 ease-in-out">
+                        
+                        <!-- Blog Post 1: POM Article (UPDATED LINK) -->
+                        <div class="carousel-slide w-full md:w-1/3 flex-shrink-0 p-4">
+                            <div class="bg-gray-800 rounded-xl overflow-hidden shadow-lg transition duration-300 hover:shadow-accent-blue/50 hover:border-b-4 border-accent-blue h-full">
+                                <div class="p-6">
+                                    <span class="text-xs font-semibold text-accent-blue uppercase">Automation | Java</span>
+                                    <h4 class="text-xl font-bold text-white mt-2 mb-3">Mastering the Selenium Page Object Model (POM)</h4>
+                                    <p class="text-sm text-gray-400">A detailed guide on structuring robust and maintainable test automation frameworks using POM with Java and TestNG. Includes best practices for factory patterns.</p>
+                                    <a href="#" id="read-pom-article" class="mt-4 inline-block text-accent-blue hover:text-blue-400 font-medium text-sm" data-article-id="pom">Read Article &rarr;</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Blog Post 2 -->
+                        <div class="carousel-slide w-full md:w-1/3 flex-shrink-0 p-4">
+                            <div class="bg-gray-800 rounded-xl overflow-hidden shadow-lg transition duration-300 hover:shadow-accent-blue/50 hover:border-b-4 border-accent-blue h-full">
+                                <div class="p-6">
+                                    <span class="text-xs font-semibold text-accent-blue uppercase">CI/CD | DevOps</span>
+                                    <h4 class="text-xl font-bold text-white mt-2 mb-3">Integrating Jenkins Pipelines for Scalable Testing</h4>
+                                    <p class="text-sm text-gray-400">Step-by-step tutorial on setting up a Jenkins pipeline to trigger automated regression suites on a daily schedule, ensuring continuous quality assurance.</p>
+                                    <a href="#" class="mt-4 inline-block text-accent-blue hover:text-blue-400 font-medium text-sm">Read Article &rarr;</a>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Blog Post 3 -->
+                        <div class="carousel-slide w-full md:w-1/3 flex-shrink-0 p-4">
+                            <div class="bg-gray-800 rounded-xl overflow-hidden shadow-lg transition duration-300 hover:shadow-accent-blue/50 hover:border-b-4 border-accent-blue h-full">
+                                <div class="p-6">
+                                    <span class="text-xs font-semibold text-accent-blue uppercase">API Testing | RestAssured</span>
+                                    <h4 class="text-xl font-bold text-white mt-2 mb-3">Deep Dive into RestAssured: Handling Complex Payloads</h4>
+                                    <p class="text-sm text-gray-400">Exploring advanced techniques in RestAssured for validating complex JSON structures, dynamic data generation, and parameterizing requests for robust API testing.</p>
+                                    <a href="#" class="mt-4 inline-block text-accent-blue hover:text-blue-400 font-medium text-sm">Read Article &rarr;</a>
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
                 </div>
-                
-                <!-- Blog Post 3 -->
-                <div class="bg-gray-800 rounded-xl overflow-hidden shadow-lg transition duration-300 hover:shadow-accent-blue/50 hover:border-b-4 border-accent-blue">
-                    <div class="p-6">
-                        <span class="text-xs font-semibold text-accent-blue uppercase">API Testing | RestAssured</span>
-                        <h4 class="text-xl font-bold text-white mt-2 mb-3">Deep Dive into RestAssured: Handling Complex Payloads</h4>
-                        <p class="text-sm text-gray-400">Exploring advanced techniques in RestAssured for validating complex JSON structures, dynamic data generation, and parameterizing requests for robust API testing.</p>
-                        <a href="#" class="mt-4 inline-block text-accent-blue hover:text-blue-400 font-medium text-sm">Read Article &rarr;</a>
-                    </div>
-                </div>
-                
+            </div>
+            
+            <!-- Indicators/Dots (Only visible on mobile) -->
+            <div id="carousel-indicators" class="flex justify-center mt-6 space-x-2 md:hidden">
+                <!-- Dots generated by JS -->
             </div>
         </section>
 
@@ -521,7 +558,7 @@
             <div class="mt-10 flex justify-center space-x-6">
                 <!-- GitHub -->
                 <a href="https://github.com/manishcse" target="_blank" class="text-gray-400 hover:text-white transition duration-300">
-                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.884-.015-1.745-2.784.605-3.367-1.341-3.367-1.341-.454-1.156-1.11-1.46-1.11-1.46-.909-.62.068-.608.068-.608 1.004.07 1.531 1.032 1.531 1.032.892 1.528 2.341 1.087 2.91.831.091-.645.356-1.087.645-1.334-2.22-.25-4.555-1.11-4.555-4.927 0-1.088.389-1.979 1.029-2.675-.102-.25-.446-1.266.098-2.638 0 0 .84-.268 2.75 1.022A9.702 9.702 0 0112 5.093c.85.004 1.705.115 2.504.337 1.909-1.29 2.747-1.022 2.747-1.022.546 1.372.202 2.388.099 2.638.64.696 1.587 1.028 2.675 0 3.826-2.338 4.673-4.566 4.92.359.31.678.924.678 1.855 0 1.335-.012 2.417-.012 2.747 0 .267.18.575.688.483C19.137 20.198 22 16.442 22 12.017 22 6.484 17.523 2 12 2Z" clip-rule="evenodd"/></svg>
+                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.884-.015-1.745-2.784.605-3.367-1.341-3.367-1.341-.454-1.156-1.11-1.46-1.11-1.46-.909-.62.068-.608.068-.608 1.004.07 1.531 1.032 1.531 1.032.892 1.528 2.341 1.087 2.91.831.091-.645.356-1.087.645-1.334-2.22-.25-4.555-1.11-4.555-4.927 0-1.088.389-1.979 1.029-2.675-.102-.25-.446-1.266.098-2.638 0 0 .84-.268 2.75 1.022A9.702 9.702 0 0112 5.093c.85.004 1.705.115 2.504.337 1.909-1.29 2.747-1.022 2.747-1.022.546 1.372.202 2.388.099 2.638.64.696 1.587 1.028 2.675 1.028 3.826-2.338 4.673-4.566 4.92-.359.31.678.924.678 1.855 0 1.335-.012 2.417-.012 2.747 0 .267.18.575.688.483C19.137 20.198 22 16.442 22 12.017 22 6.484 17.523 2 12 2Z" clip-rule="evenodd"/></svg>
                 </a>
                 <!-- LinkedIn -->
                 <a href="https://www.linkedin.com/in/manish-kumar-323bba78/" target="_blank" class="text-gray-400 hover:text-white transition duration-300">
@@ -550,7 +587,90 @@
         <p>&copy; 2024 Manish CSE. Designed and built with Tailwind CSS.</p>
     </footer>
 
+    <!-- Article Modal Structure (Hidden by default) -->
+    <div id="article-modal" class="fixed inset-0 hidden modal-overlay items-center justify-center p-4">
+        <div class="modal-content w-full max-w-4xl bg-gray-900 rounded-xl shadow-2xl overflow-y-auto p-6 md:p-10 transform transition-transform duration-300 scale-95 opacity-0">
+            <!-- Close Button -->
+            <div class="flex justify-end sticky top-0 bg-gray-900 z-10 pt-1 pb-4">
+                <button id="close-modal-btn" aria-label="Close article" class="text-gray-400 hover:text-white transition duration-300">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            
+            <!-- Article Content Placeholder -->
+            <div id="article-content" class="prose prose-invert max-w-none text-gray-300">
+                <!-- Content will be injected here -->
+            </div>
+            
+            <div class="text-center mt-10 border-t border-gray-700 pt-6">
+                 <button id="close-modal-footer-btn" class="px-6 py-3 bg-accent-blue text-white font-medium rounded-lg shadow-lg hover:bg-blue-600 transition duration-300">Close Reading</button>
+            </div>
+        </div>
+    </div>
+    
     <script>
+        // --- Article Content (Simulating article_pom file) ---
+        const ARTICLE_POM_CONTENT = `
+# Mastering the Selenium Page Object Model (POM) in Java
+
+The **Page Object Model (POM)** is a design pattern used in test automation to create an object repository for web UI elements. The core principle is simple: separate the test logic from the page elements, making your test code cleaner, reusable, and easier to maintain.
+
+## Why POM is Essential for Scalable Automation
+
+In any large-scale automation project, maintaining hundreds of test scripts can quickly become a nightmare if page locators are hardcoded.
+
+1.  **Readability:** Tests look like a user's action sequence, not a spaghetti of selectors.
+2.  **Maintainability:** If a locator changes (e.g., \`id="login-btn"\` changes to \`id="sign-in-btn"\`), you only change it in *one* place (the Page Object class), not across dozens of test scripts.
+3.  **Reusability:** The same page method (e.g., \`loginPage.enterUsername('user')\`) can be used by multiple test cases and different test suites.
+
+## Core Components of the POM Framework
+
+A typical Selenium POM framework structure involves three key parts:
+
+### 1. Page Objects (The "What" and "How")
+
+* **Role:** Each significant web page (or screen) gets its own class. This class contains the **WebElements (the "What")** and the **methods (the "How")** that operate on those elements.
+* **Example (LoginPage.java):**
+    \`\`\`java
+    public class LoginPage {
+        WebDriver driver;
+        
+        // 1. Elements (What)
+        @FindBy(id = "username")
+        WebElement usernameField;
+        
+        @FindBy(css = ".login-button")
+        WebElement loginButton;
+
+        public LoginPage(WebDriver driver) {
+            this.driver = driver;
+            PageFactory.initElements(driver, this); // Initialize elements
+        }
+        
+        // 2. Methods (How)
+        public void login(String user, String password) {
+            usernameField.sendKeys(user);
+            passwordField.sendKeys(password);
+            loginButton.click();
+        }
+    }
+    \`\`\`
+
+### 2. Test Base (The Foundation)
+
+This class handles setup (like initializing the browser) and teardown (closing the browser).
+
+### 3. Test Cases (The "Verification")
+
+These classes contain the actual TestNG or JUnit tests. They utilize the methods exposed by the Page Object classes to perform actions and assert results. The test case itself **never** uses locators directly.
+
+## Best Practice: Using PageFactory
+
+For Java users, the **PageFactory** class in Selenium simplifies element initialization. Instead of manually initializing every \`WebElement\` using \`driver.findElement()\`, you use the \`@FindBy\` annotation. This pattern is demonstrated in the \`LoginPage\` example above.
+
+Implementing the Page Object Model is not just a coding choice; it's a strategic decision that guarantees your automation suite remains stable, clean, and a reliable asset for years of development. Happy testing!
+`;
+
         // Utility function to display a custom message box instead of alert()
         function showMessage(message, type = 'success') {
             const box = document.getElementById('message-box');
@@ -664,21 +784,224 @@
         // Simple JavaScript for smooth scrolling in mobile/desktop navigation
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
-                // Check if the link is the resume download link, in which case we allow default behavior
-                if (this.getAttribute('download') !== null) {
-                    return; 
+                // 1. Check if the link is the resume download link or a special content link
+                if (this.getAttribute('download') !== null || this.id === 'read-pom-article') {
+                    return; // Let other handlers (like the article modal) manage these, or let default behavior proceed
                 }
-                e.preventDefault();
-                // Ensure the mobile menu is closed before or during scroll
-                if (!mobileMenu.classList.contains('hidden')) {
-                    toggleMobileMenu();
+                
+                const targetHref = this.getAttribute('href');
+
+                // 2. Handle '#' (which means scroll to top or the primary section)
+                if (targetHref === '#') {
+                    e.preventDefault();
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        toggleMobileMenu();
+                    }
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                    return;
                 }
 
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                // 3. Handle specific section IDs (e.g., #intro, #about)
+                const targetElement = document.querySelector(targetHref);
+
+                if (targetElement) {
+                    e.preventDefault();
+                    // Ensure the mobile menu is closed before or during scroll
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        toggleMobileMenu();
+                    }
+
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
             });
         });
+
+        // --- Blog Carousel Logic (Mobile Only) ---
+        const track = document.getElementById('carousel-track');
+        const slides = document.querySelectorAll('.carousel-slide');
+        const prevButton = document.getElementById('prev-slide');
+        const nextButton = document.getElementById('next-slide');
+        const indicatorsContainer = document.getElementById('carousel-indicators');
+        
+        let currentSlideIndex = 0;
+        const totalSlides = slides.length;
+
+        function updateCarousel() {
+            // Only enable sliding functionality on mobile screens (less than 768px, which is Tailwind's 'md')
+            const isMobile = window.innerWidth < 768;
+            
+            if (isMobile) {
+                // Calculate translation percentage (100% per slide)
+                const translateX = -currentSlideIndex * 100;
+                track.style.transform = `translateX(${translateX}%)`;
+
+                // Update navigation buttons
+                prevButton.disabled = currentSlideIndex === 0;
+                nextButton.disabled = currentSlideIndex === totalSlides - 1;
+                
+                // Update indicators
+                updateIndicators();
+            } else {
+                // On desktop (md+), show all 3. Reset transform and disable buttons.
+                track.style.transform = 'translateX(0)';
+                prevButton.disabled = true;
+                nextButton.disabled = true;
+                indicatorsContainer.innerHTML = ''; // Clear indicators
+            }
+        }
+
+        function goToSlide(index) {
+            currentSlideIndex = index;
+            updateCarousel();
+        }
+
+        function nextSlide() {
+            if (currentSlideIndex < totalSlides - 1) {
+                goToSlide(currentSlideIndex + 1);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlideIndex > 0) {
+                goToSlide(currentSlideIndex - 1);
+            }
+        }
+
+        function updateIndicators() {
+            indicatorsContainer.innerHTML = '';
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('button');
+                dot.classList.add('w-3', 'h-3', 'rounded-full', 'transition-colors', 'duration-300');
+                dot.setAttribute('aria-label', `Go to slide ${i + 1}`);
+                
+                if (i === currentSlideIndex) {
+                    dot.classList.add('bg-accent-blue');
+                } else {
+                    dot.classList.add('bg-gray-700', 'hover:bg-gray-500');
+                }
+                
+                dot.addEventListener('click', () => goToSlide(i));
+                indicatorsContainer.appendChild(dot);
+            }
+        }
+
+        // --- Article Modal Functions ---
+        const articleModal = document.getElementById('article-modal');
+        const articleContentDiv = document.getElementById('article-content');
+
+        function markdownToHtml(markdown) {
+            // Simple Markdown parser for basic formatting (H1, H2, H3, bold, italic, code block, paragraph)
+            let html = markdown
+                .replace(/^### (.*$)/gim, '<h3>$1</h3>') // h3
+                .replace(/^## (.*$)/gim, '<h2>$1</h2>') // h2
+                .replace(/^# (.*$)/gim, '<h1>$1</h1>')   // h1
+                .replace(/\*\*(.*)\*\*/gim, '<strong>$1</strong>') // bold
+                .replace(/\*(.*)\*/gim, '<em>$1</em>') // italic
+                .replace(/`(.*?)`/gim, '<code>$1</code>') // inline code
+                .replace(/(\n{2,})/gim, '</p><p>') // Replace multiple newlines with paragraph closing/opening
+                .replace(/^(?!\<h1|\<h2|\<h3|\<pre)/gm, '<p>') // Start of paragraph not beginning with h1/h2/h3/pre
+                .replace(/(\<p\>)/g, '') // Clean up empty paragraphs
+                .replace(/(\<\/p\>)/g, '<p class="mb-4 text-lg">')
+                .trim();
+                
+            // Handle code blocks (simple Java example)
+            html = html.replace(/```java\n([\s\S]*?)```/gim, (match, code) => {
+                const escapedCode = code.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+                return `<pre class="bg-gray-800 p-4 rounded-lg overflow-x-auto text-sm my-4 font-mono"><code class="text-green-300">${escapedCode}</code></pre>`;
+            });
+
+            // Wrap initial text in a paragraph tag if it's not already wrapped
+            if (html && !html.startsWith('<h1') && !html.startsWith('<p') && !html.startsWith('<pre')) {
+                 html = `<p class="mb-4 text-lg">${html}</p>`;
+            }
+            
+            // Cleanup: remove the trailing closing paragraph tag and leading newlines
+            html = html.replace(/<\/p><p class=\"mb-4 text-lg\">$/, '');
+            html = html.replace(/<p class=\"mb-4 text-lg\">$/, '');
+
+            return html;
+        }
+
+
+        function openArticleModal(articleId) {
+            let content = '';
+            let title = '';
+
+            // Map article ID to content
+            if (articleId === 'pom') {
+                content = ARTICLE_POM_CONTENT;
+                title = 'Mastering the Page Object Model';
+            } else {
+                showMessage('Article not found.', 'error');
+                return;
+            }
+            
+            // Clear previous content
+            articleContentDiv.innerHTML = '';
+
+            // Inject the content (run through simple Markdown parser)
+            const renderedHtml = markdownToHtml(content.trim());
+            
+            // Add title and content
+            articleContentDiv.innerHTML = `<h1 class="text-4xl font-extrabold text-white mb-6">${title}</h1>${renderedHtml}`;
+            
+            // Show the modal with transition effect
+            articleModal.classList.remove('hidden');
+            articleModal.classList.add('flex');
+            
+            // Trigger transition
+            setTimeout(() => {
+                const modalContent = articleModal.querySelector('.modal-content');
+                modalContent.classList.remove('opacity-0', 'scale-95');
+                modalContent.classList.add('opacity-100', 'scale-100');
+            }, 10); 
+            
+            // Disable body scrolling
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeArticleModal() {
+            const modalContent = articleModal.querySelector('.modal-content');
+            
+            // Trigger reverse transition
+            modalContent.classList.remove('opacity-100', 'scale-100');
+            modalContent.classList.add('opacity-0', 'scale-95');
+
+            // Wait for transition to finish (300ms) before hiding
+            setTimeout(() => {
+                articleModal.classList.add('hidden');
+                articleModal.classList.remove('flex');
+                document.body.style.overflow = 'auto'; // Re-enable body scrolling
+            }, 300);
+        }
+
+        // Event listener for the specific POM article link
+        document.getElementById('read-pom-article').addEventListener('click', function(e) {
+            e.preventDefault();
+            const articleId = this.getAttribute('data-article-id');
+            openArticleModal(articleId);
+        });
+
+        // Event listeners for closing the modal
+        document.getElementById('close-modal-btn').addEventListener('click', closeArticleModal);
+        document.getElementById('close-modal-footer-btn').addEventListener('click', closeArticleModal);
+        articleModal.addEventListener('click', (e) => {
+            // Close if the user clicks the overlay (but not the modal content itself)
+            if (e.target === articleModal) {
+                closeArticleModal();
+            }
+        });
+        
+        // --- Initialization ---
+        window.onload = function() {
+            // Initialize the carousel after the window has loaded
+            updateCarousel(); 
+        }
     </script>
 
 </body>
