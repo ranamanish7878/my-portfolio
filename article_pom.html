@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Article: Mastering the Selenium Page Object Model (POM)</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary-blue': '#3B82F6', 
+                        'secondary-dark': '#1F2937', 
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        /* Custom styling for markdown elements */
+        .article-content h2 {
+            padding-top: 1.5rem;
+            margin-top: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+            font-size: 1.75rem; /* 2xl */
+            font-weight: 700;
+            color: #1F2937;
+        }
+        .article-content h3 {
+            font-size: 1.25rem; /* xl */
+            font-weight: 600;
+            color: #3B82F6;
+            margin-top: 1rem;
+        }
+        .article-content p {
+            margin-bottom: 1rem;
+            line-height: 1.75;
+            color: #4B5563;
+        }
+        .article-content ul {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+            padding-left: 0.5rem;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+    <div class="max-w-4xl mx-auto bg-white shadow-xl rounded-2xl p-6 sm:p-10 border border-gray-100">
+        
+        <!-- Navigation Link Back to Home -->
+        <a href="index.html" class="inline-flex items-center text-primary-blue font-medium mb-8 hover:underline transition duration-300">
+            <svg class="mr-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Back to Portfolio
+        </a>
+
+        <!-- Article Content -->
+        <div class="article-content">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-secondary-dark mb-4">Mastering the Selenium Page Object Model (POM)</h1>
+            <p class="text-lg text-gray-500 mb-8">An essential guide for scalable and maintainable QA Automation.</p>
+
+            <p>In high-velocity Agile environments, the cornerstone of **scalable, robust, and maintainable** UI automation lies in effective design patterns. The **Page Object Model (POM)** stands as the industry standard design pattern for achieving this in **Selenium** and other UI automation frameworks like Playwright. Fundamentally, POM is an object-oriented approach where every web page (or key component) in the application under test has a corresponding class in the automation code.</p>
+
+            <h2>Decoupling Logic: The POM Mandate</h2>
+            <p>The core strength of POM lies in **separating the test logic from the element locators**. Rather than embedding direct locator dependencies within test scripts, POM abstracts the UI elements and the actions that can be performed on them (like `clickLoginButton()` or `enterUsername(username)`).</p>
+
+            <p>If a UI element's locator changes—for example, if a button's ID is updated from `login_btn` to `submit_btn`—you only need to update the locator in **one central Page Object class**. All test cases that interact with that button automatically inherit the change, saving countless hours of maintenance and significantly reducing the risk of automation breaks.</p>
+
+            <h3>Core Benefits of POM Adoption</h3>
+            <p>Ultimately, POM adoption delivers multiple core benefits:</p>
+            <ul class="list-disc list-inside space-y-2">
+                <li>**Readability:** Test scripts focus on intent (**what** to test), not implementation (**how** to interact), making them easier to understand.</li>
+                <li>**Maintainability:** Reduces the **Total Cost of Ownership (TCO)** by centralizing locator updates, minimizing global changes when the UI evolves.</li>
+                <li>**Reusability:** Actions and locators defined in Page Objects can be used across multiple test scenarios.</li>
+                <li>**Onboarding:** Accelerates the learning curve for new team members, thanks to clean, reusable, and self-documenting code.</li>
+            </ul>
+            <p>POM is not just a pattern; it is a critical practice for any professional Quality Engineer building robust automation frameworks.</p>
+        </div>
+
+        <footer class="mt-10 pt-6 border-t border-gray-200 text-center text-sm text-gray-500">
+            &copy; 2025 Imani Rana | Quality Engineering Insights
+        </footer>
+    </div>
+</body>
+</html>
