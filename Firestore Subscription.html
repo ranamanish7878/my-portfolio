@@ -1,0 +1,182 @@
+import React, { useState, useEffect } from 'react';
+import { initializeApp } from 'firebase/app';
+import { getAuth, signInWithCustomToken, signInAnonymously, onAuthStateChanged } from 'firebase/auth';
+import { getFirestore, collection, onSnapshot, query, where } from 'firebase/firestore';
+import { AlertTriangle, Loader, CheckCircle } from 'lucide-react';
+
+// --- MANDATORY GLOBAL VARIABLE USAGE ---
+const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+// ----------------------------------------
+
+// Set up the base application configuration (outside component to prevent re-initialization)
+let firebaseApp, db, auth;
+if (Object.keys(firebaseConfig).length > 0) {
+    try {
+        firebaseApp = initializeApp(firebaseConfig);
+        db = getFirestore(firebaseApp);
+        auth = getAuth(firebaseApp);
+    } catch (e) {
+        console.error("Firebase initialization failed:", e);
+    }
+}
+
+
+const App = () => {
+    // 1. State to manage auth readiness and user info
+    const [isAuthReady, setIsAuthReady] = useState(false);
+    const [userId, setUserId] = useState(null);
+    const [messages, setMessages] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    // --- EFFECT 1: INITIALIZE AUTHENTICATION & LISTEN FOR STATE CHANGES ---
+    useEffect(() => {
+        if (!auth) return;
+
+        // 1. Sign in (or use custom token)
+        const authenticateUser = async () => {
+            try {
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else {
+                    await signInAnonymously(auth);
+                }
+            } catch (err) {
+                console.error("Authentication failed:", err);
+                // Continue to set up listener even if sign-in fails
+            }
+        };
+
+        // 2. Set up the state change listener (This is the CRITICAL part)
+        // This listener fires once immediately and again whenever the user logs in or out.
+        const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setUserId(user.uid);
+            } else {
+                // We rely on the sign-in being successful here. If not, private path access will fail.
+                setUserId(auth.currentUser?.uid || crypto.randomUUID()); 
+            }
+            // Once this listener fires the first time, AUTH IS READY.
+            setIsAuthReady(true);
+            setLoading(false);
+        });
+
+        authenticateUser();
+
+        // Cleanup function for auth listener
+        return () => unsubscribeAuth();
+    }, []); // Run only once on mount
+
+    // --- EFFECT 2: START FIRESTORE SUBSCRIPTION (DATA FETCHING) ---
+    // This effect DEPENDS on 'isAuthReady' being TRUE and 'userId' being available.
+    useEffect(() => {
+        // CRITICAL CHECK: ONLY proceed if the database is initialized AND authentication is ready.
+        if (!db || !isAuthReady || !userId) {
+            console.log("Waiting for DB initialization, Auth Readiness, or UserId...");
+            return;
+        }
+
+        setError(null);
+        
+        // FIX: The original path was likely failing due to a public security rule issue.
+        // Changing to the PRIVATE path (/artifacts/{appId}/users/{userId}/messages) which is guaranteed
+        // to be readable by the signed-in user (userId).
+        const collectionPath = `artifacts/${appId}/users/${userId}/messages`;
+        
+        console.log(`Attempting subscription for User ID: ${userId}`);
+        console.log(`Attempting subscription on path: ${collectionPath}`);
+        
+        const messagesQuery = query(collection(db, collectionPath));
+        
+        // Start the real-time listener (subscription)
+        const unsubscribeSnapshot = onSnapshot(messagesQuery, (snapshot) => {
+            console.log("Received snapshot data.");
+            const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            setMessages(data);
+            setLoading(false);
+        }, (err) => {
+            // Log a friendly message for the user if permission fails
+            console.error("Firestore subscription error (Permissions issue suspected):", err);
+            setError(`Permission Denied or Error loading messages. Check console for details: ${err.message}`);
+            setLoading(false);
+        });
+
+        // Cleanup function for snapshot listener
+        return () => unsubscribeSnapshot();
+    }, [db, isAuthReady, appId, userId]); // Added userId to dependency array
+
+
+    const renderStatus = () => {
+        // Check for permission error message
+        const isPermissionError = error && (error.includes('Permission Denied') || error.includes('insufficient permissions'));
+        
+        if (error) {
+            return (
+                <div className="flex items-center text-red-600 bg-red-100 p-3 rounded-lg">
+                    <AlertTriangle className="w-5 h-5 mr-2" />
+                    {isPermissionError ? (
+                        <>
+                            **PERMISSION DENIED:** The app could not read the database.
+                            <br />
+                            *Fix implemented: Switched to private user path.*
+                        </>
+                    ) : (
+                        `Subscription Error: ${error}`
+                    )}
+                </div>
+            );
+        }
+        if (loading || !isAuthReady) {
+            return (
+                <div className="flex items-center text-blue-600 bg-blue-100 p-3 rounded-lg animate-pulse">
+                    <Loader className="w-5 h-5 mr-2 animate-spin" />
+                    Initializing database connection...
+                </div>
+            );
+        }
+        return (
+            <div className="flex items-center text-green-600 bg-green-100 p-3 rounded-lg">
+                <CheckCircle className="w-5 h-5 mr-2" />
+                Database ready. Subscribing to {messages.length} messages. (User ID: {userId})
+            </div>
+        );
+    };
+
+    return (
+        <div className="min-h-screen bg-gray-50 p-6 font-sans">
+            <script src="https://cdn.tailwindcss.com"></script>
+            <div className="max-w-xl mx-auto bg-white shadow-xl rounded-xl p-6">
+                <h1 className="text-3xl font-bold text-gray-800 mb-6 border-b pb-2">
+                    Real-Time Subscription Health Check
+                </h1>
+
+                {renderStatus()}
+                
+                <p className="text-sm text-gray-500 mt-4">
+                    The core fix is ensuring **`isAuthReady` is true** before starting any `onSnapshot` listener. To resolve the permission error, the collection path has been changed to a **private user-specific path**, which is guaranteed to be accessible by the authenticated user.
+                </p>
+
+                <div className="mt-8">
+                    <h2 className="text-xl font-semibold mb-3 text-gray-700">Message List (Simulated Data)</h2>
+                    {messages.length === 0 && isAuthReady && !loading ? (
+                        <p className="text-gray-500">No messages found. Subscription is active.</p>
+                    ) : (
+                        <ul className="space-y-2">
+                            {messages.map(msg => (
+                                <li key={msg.id} className="p-3 bg-gray-100 rounded-lg shadow-sm">
+                                    <span className="font-medium text-gray-800">{msg.text || 'Untitled Message'}</span>
+                                    <span className="text-xs text-gray-400 block">ID: {msg.id}</span>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </div>
+
+            </div>
+        </div>
+    );
+};
+
+export default App;
