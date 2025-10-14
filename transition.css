@@ -1,0 +1,14 @@
+/* --- HAMBURGER MENU FIX: ADD TRANSITIONS --- */
+        #mobile-menu {
+            transition: all 0.3s ease-in-out; /* Smooth transition for slide-down effect */
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            /* Start state is hidden */
+        }
+        #mobile-menu.open {
+            max-height: 500px; /* Sufficient height to show all links */
+            opacity: 1;
+        }
+
+By adding `transition: all 0.3s ease-in-out;` and animating the `max-height` and `opacity` properties, the menu now slides down and fades in smoothly over 0.3 seconds on mobile devices. Give it a try!
